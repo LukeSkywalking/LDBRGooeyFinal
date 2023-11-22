@@ -15,13 +15,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
 
         binding.deezerButton.setOnClickListener(click ->{
            startActivity(new Intent(this,Deezer.class));
         });
+
 
     }
 }
