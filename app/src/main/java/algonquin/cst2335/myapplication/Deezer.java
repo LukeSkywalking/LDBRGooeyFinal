@@ -7,10 +7,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -24,6 +28,8 @@ import org.json.JSONObject;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -32,6 +38,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -54,8 +61,13 @@ public class Deezer extends AppCompatActivity {
 
     AlbumsViewModel albumModel;
 
+    DeezerBinding binding;
+
     SharedPreferences sp;
+    AlbumBinding ab;
     Songs song;
+
+    protected Bitmap albumCover;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +82,6 @@ public class Deezer extends AppCompatActivity {
         setSupportActionBar(toolBar);
 
 
-        binding.searchButton.setOnClickListener(click -> {
-            startActivity(new Intent(this, Deezer.class));
-        });
-
         binding.playlistPageButton.setOnClickListener(click -> {
             startActivity(new Intent(this, playlist.class));
         });
@@ -83,49 +91,75 @@ public class Deezer extends AppCompatActivity {
 
 
         binding.searchButton.setOnClickListener(c -> {
-            AlbumBinding ab;
-
+            // Get the searched text from the EditText
             String searchedText = binding.searchText.getText().toString().trim();
 
+            // Construct the URL for the Deezer API to search for albums
             String stringURL = null;
-
             try {
-                stringURL = "https://api.deezer.com/search/artist/?q=" +
+                stringURL = "https://api.deezer.com/search/album/?q=" +
                         URLEncoder.encode(searchedText, "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e);
             }
 
-            RequestQueue queue = null;
-            queue = Volley.newRequestQueue(this);
-
+            // Make a GET request to the Deezer API
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, stringURL, null,
                     (response) -> {
                         try {
-                            if (response.has("data")) {
-                                JSONArray albumArray = response.getJSONArray("data");
+                            // Get the array of albums from the response
+                            JSONArray albumArray = response.getJSONArray("data");
 
-                                for (int i = 0; i < albumArray.length(); i++) {
-                                    JSONObject album = albumArray.getJSONObject(i);
 
-                                    long albumId = album.getLong("id");
-                                    String albumName = album.getString("title");
-                                    String albumCoverUrl = album.getString("cover_medium");
+                            for (int i = 0; i < albumArray.length(); i++){
 
-                                    JSONObject artist = album.getJSONObject("artist");
-                                    String artistName = artist.getString("name");
-                                    DeezerAlbum deezerAlbum = new DeezerAlbum(albumId,albumName,artistName,albumCoverUrl);
-                                    albumsList.add(deezerAlbum);
-                                }
+                            JSONObject album0 = albumArray.getJSONObject(i);
+                            long albumId = album0.getLong("id");
+                            String albumName = album0.getString("title");
+                            String albumCoverUrl = album0.getString("cover_medium");
+                            // Get the artist information
+                            JSONObject artist = album0.getJSONObject("artist");
+                            String artistName = (String) artist.getString("name");
+
+
+                            DeezerAlbum album = new DeezerAlbum(albumId,albumName,artistName,albumCoverUrl);
+                            albumsList.add(album);
+
+                            String pathname = getFilesDir() + "/" + albumCoverUrl;
+                            File file = new File(pathname);
+
+                            if (file.exists()) {
+                                albumCover = BitmapFactory.decodeFile(pathname);
+                                ab.albumCover.setImageBitmap(albumCover);
+                                ab.albumCover.setVisibility(View.VISIBLE);
+                            } else {
+                                ImageRequest imgReq = new ImageRequest(albumCoverUrl, new Response.Listener<Bitmap>() {
+                                    @Override
+                                    public void onResponse(Bitmap bitmap) {
+                                        ab.albumCover.setImageBitmap(bitmap);
+                                        ab.albumCover.setVisibility(View.VISIBLE);
+                                        try {
+                                            bitmap.compress(Bitmap.CompressFormat.PNG, 100,
+                                                    Deezer.this.openFileOutput(artistName + ".png", Activity.MODE_PRIVATE));
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }, 1024, 1024, ImageView.ScaleType.CENTER, null, error -> {
+                                });
+                                queue.add(imgReq);
                             }
-                        } catch (JSONException e) {
+
+                            }
+
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    }, (error) -> {
-                if (error.networkResponse != null) {
-                    int j = 0;
-                }
-            });
+                    },
+                    error -> {
+                        // Handle error
+                        error.printStackTrace();
+                    });
             queue.add(request);
         });
 
@@ -133,6 +167,7 @@ public class Deezer extends AppCompatActivity {
 //        binding.deezerAlbums.setLayoutManager(new LinearLayoutManager(this));
 //        albumModel = new ViewModelProvider(this).get(AlbumsViewModel.class);
 //        albumsList = albumModel.deezerAlbum.getValue();
+
 
 // Add the request to the request queue
 
@@ -144,22 +179,23 @@ public class Deezer extends AppCompatActivity {
 
             public MyAlbumHolder(@NonNull View itemView) {
                 super(itemView);
-
+                itemView.setOnClickListener(c -> {
+                    int position = getAbsoluteAdapterPosition();
+                    DeezerAlbum selected = albumsList.get(position);
+                    albumModel.selectedAlbums.postValue(selected);
+                });
                 albumName = itemView.findViewById(R.id.albumName);
                 artistName = itemView.findViewById(R.id.artistName);
-                imageView = itemView.findViewById(R.id.imageView);
+                imageView = itemView.findViewById(R.id.albumCover);
             }
-
         }
 
 
-
         binding.deezerAlbums.setAdapter(myAdapter = new RecyclerView.Adapter<MyAlbumHolder>() {
-
             @NonNull
             @Override
             public MyAlbumHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                AlbumBinding binding = AlbumBinding.inflate(getLayoutInflater(),parent,false);
+                AlbumBinding binding = AlbumBinding.inflate(getLayoutInflater(), parent, false);
                 return new MyAlbumHolder(binding.getRoot());
             }
 
@@ -168,6 +204,7 @@ public class Deezer extends AppCompatActivity {
                 DeezerAlbum deezerAlbum = albumsList.get(position);
                 holder.albumName.setText(deezerAlbum.getTitle());
                 holder.artistName.setText(deezerAlbum.getArtistName());
+
                 //need one for the album picture
             }
 
@@ -177,6 +214,8 @@ public class Deezer extends AppCompatActivity {
             }
         });
 
+
+//
 //            class MySongHolder extends RecyclerView.ViewHolder {
 //                TextView songName;
 //                TextView artistName;
@@ -195,7 +234,7 @@ public class Deezer extends AppCompatActivity {
 //
 //                }
 //            }
-//
+
 //
 //            binding.deezerSongs.setAdapter(new RecyclerView.Adapter<MySongHolder>() {
 //                @NonNull
@@ -221,9 +260,11 @@ public class Deezer extends AppCompatActivity {
 //
 //
 //            });
-
-        }
     }
+}
+
+
+
 
 
 

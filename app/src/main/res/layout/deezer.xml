@@ -17,17 +17,18 @@
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <EditText
         android:id="@+id/searchText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:hint="Search For Your Songs"
-        app:layout_constraintBottom_toBottomOf="@+id/searchButton"
         app:layout_constraintEnd_toStartOf="@+id/searchButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        />
 
     <Button
         android:id="@+id/searchButton"
@@ -35,16 +36,18 @@
         android:layout_height="wrap_content"
         android:text="Search"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        />
 
-    <androidx.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/deezerAlbums"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/searchPageButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchButton" />
+        app:layout_constraintTop_toBottomOf="@+id/searchText"
+            />
 
     <ImageButton
         android:id="@+id/historyPageButton"
