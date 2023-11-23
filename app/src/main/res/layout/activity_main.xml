@@ -10,7 +10,7 @@
     <ImageButton
         android:id="@+id/deezerButton"
         android:layout_width="match_parent"
-        android:layout_height="183dp"
+        android:layout_height="0dp"
         android:background="@android:color/background_dark"
         android:src="@drawable/deezer_logo"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,18 +20,18 @@
     <ImageButton
         android:id="@+id/dictionaryButton"
         android:layout_width="match_parent"
-        android:layout_height="183dp"
+        android:layout_height="0dp"
         android:background="@android:color/background_dark"
         android:src="@drawable/dictionary"
         android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/sunrisesunsetButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipeButton" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/recipeButton"
         android:layout_width="match_parent"
-        android:layout_height="183dp"
+        android:layout_height="0dp"
         android:background="@android:color/background_dark"
         android:src="@drawable/recipe"
         android:text="Button"
@@ -42,12 +42,11 @@
     <ImageButton
         android:id="@+id/sunrisesunsetButton"
         android:layout_width="match_parent"
-        android:layout_height="183dp"
+        android:layout_height="0dp"
         android:background="@android:color/background_dark"
         android:src="@drawable/sunrise"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dictionaryButton" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

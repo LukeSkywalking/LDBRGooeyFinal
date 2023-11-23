@@ -113,43 +113,17 @@ public class Deezer extends AppCompatActivity {
 
                             for (int i = 0; i < albumArray.length(); i++){
 
-                            JSONObject album0 = albumArray.getJSONObject(i);
-                            long albumId = album0.getLong("id");
-                            String albumName = album0.getString("title");
-                            String albumCoverUrl = album0.getString("cover_medium");
-                            // Get the artist information
-                            JSONObject artist = album0.getJSONObject("artist");
-                            String artistName = (String) artist.getString("name");
+                                JSONObject album0 = albumArray.getJSONObject(i);
+                                long albumId = album0.getLong("id");
+                                String albumName = album0.getString("title");
+                                String albumCoverUrl = album0.getString("cover_medium");
+                                // Get the artist information
+                                JSONObject artist = album0.getJSONObject("artist");
+                                String artistName = (String) artist.getString("name");
 
 
-                            DeezerAlbum album = new DeezerAlbum(albumId,albumName,artistName,albumCoverUrl);
-                            albumsList.add(album);
-
-                            String pathname = getFilesDir() + "/" + albumCoverUrl;
-                            File file = new File(pathname);
-
-                            if (file.exists()) {
-                                albumCover = BitmapFactory.decodeFile(pathname);
-                                ab.albumCover.setImageBitmap(albumCover);
-                                ab.albumCover.setVisibility(View.VISIBLE);
-                            } else {
-                                ImageRequest imgReq = new ImageRequest(albumCoverUrl, new Response.Listener<Bitmap>() {
-                                    @Override
-                                    public void onResponse(Bitmap bitmap) {
-                                        ab.albumCover.setImageBitmap(bitmap);
-                                        ab.albumCover.setVisibility(View.VISIBLE);
-                                        try {
-                                            bitmap.compress(Bitmap.CompressFormat.PNG, 100,
-                                                    Deezer.this.openFileOutput(artistName + ".png", Activity.MODE_PRIVATE));
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }, 1024, 1024, ImageView.ScaleType.CENTER, null, error -> {
-                                });
-                                queue.add(imgReq);
-                            }
-
+                                DeezerAlbum album = new DeezerAlbum(albumId,albumName,artistName,albumCoverUrl);
+                                albumsList.add(album);
                             }
 
                         } catch (Exception e) {
@@ -195,7 +169,7 @@ public class Deezer extends AppCompatActivity {
             @NonNull
             @Override
             public MyAlbumHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                AlbumBinding binding = AlbumBinding.inflate(getLayoutInflater(), parent, false);
+                ab = AlbumBinding.inflate(getLayoutInflater(), parent, false);
                 return new MyAlbumHolder(binding.getRoot());
             }
 
@@ -204,6 +178,32 @@ public class Deezer extends AppCompatActivity {
                 DeezerAlbum deezerAlbum = albumsList.get(position);
                 holder.albumName.setText(deezerAlbum.getTitle());
                 holder.artistName.setText(deezerAlbum.getArtistName());
+
+                String pathname = getFilesDir() + "/" + deezerAlbum.getCoverUrl();
+                File file = new File(pathname);
+
+                if (file.exists()) {
+                    albumCover = BitmapFactory.decodeFile(pathname);
+                    ab.albumCover.setImageBitmap(albumCover);
+                    ab.albumCover.setVisibility(View.VISIBLE);
+                } else {
+                    ImageRequest imgReq = new ImageRequest(deezerAlbum.getCoverUrl(), new Response.Listener<Bitmap>() {
+                        @Override
+                        public void onResponse(Bitmap bitmap) {
+                            ab.albumCover.setImageBitmap(bitmap);
+                            ab.albumCover.setVisibility(View.VISIBLE);
+                            try {
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 100,
+                                        Deezer.this.openFileOutput(deezerAlbum.getArtistName() + ".png", Activity.MODE_PRIVATE));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, 1024, 1024, ImageView.ScaleType.CENTER, null, error -> {
+                    });
+                    queue.add(imgReq);
+                }
+
 
                 //need one for the album picture
             }
