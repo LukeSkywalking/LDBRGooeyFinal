@@ -1,10 +1,33 @@
 package algonquin.cst2335.myapplication;
 
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import java.util.Date;
+
+@Entity
 public class DeezerAlbum {
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name="id")
     private long albumId;
+
+    @ColumnInfo(name = "albumTitle")
     private String title;
+
+    @ColumnInfo(name = "artistName")
     private String artistName;
+
+    @ColumnInfo(name = "coverURL")
     private String coverUrl;
+
+
+
+    private String albumRelease;
+
+    private String albumLabel;
 
     public DeezerAlbum(long albumId, String title, String artistName, String coverUrl) {
         this.albumId = albumId;
@@ -12,6 +35,7 @@ public class DeezerAlbum {
         this.artistName = artistName;
         this.coverUrl = coverUrl;
     }
+
 
     public long getAlbumId() {
         return albumId;
@@ -27,5 +51,21 @@ public class DeezerAlbum {
 
     public String getCoverUrl() {
         return coverUrl;
+    }
+
+    public String getAlbumRelease() {
+        return albumRelease;
+    }
+
+    public void setAlbumRelease(String albumRelease) {
+        this.albumRelease = albumRelease;
+    }
+
+    public String getAlbumLabel() {
+        return albumLabel;
+    }
+
+    public void setAlbumLabel(String albumLabel) {
+        this.albumLabel = albumLabel;
     }
 }

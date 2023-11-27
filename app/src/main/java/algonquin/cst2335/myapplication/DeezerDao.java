@@ -20,13 +20,4 @@ public interface DeezerDao {
 @Delete
     void deleteSongFromPlayList(Songs song);
 
-
-@Query("Select * from Songs where songTitle = :songTitle")
-    void searchSongs(String songTitle);
-
-
-
-
-
-
 }

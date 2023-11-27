@@ -10,16 +10,9 @@ import java.util.Locale;
 @Entity
 public class Songs {
 
-    public final static String TABLE_NAME_SEARCH_RESULT = "DEEZER_SONG_LIST";
-    public final static String TABLE_NAME_FAVORITE = "DEEZER_SONG_FAV";
 
-    public final static String COL_ID= "_id";
-    public final static String COL_TITLE= "Title";
-    public final static String COL_DURATION= "Duration";
-    public final static String COL_ALBUM_NAME= "AlbumName";
-    public final static String COL_ALBUM_COVER = "AlbumCover";
-
-
+@PrimaryKey
+@ColumnInfo(name = "SongID")
     /**
      * the id in db
      */
@@ -28,22 +21,39 @@ public class Songs {
     /**
      * the title of the song
      */
+    @ColumnInfo(name = "title")
     private String title;
 
     /**
      * the duration of the song in seconds
      */
+    @ColumnInfo(name = "duration")
     private int duration; // in second
 
     /**
      * the album name
      */
+    @ColumnInfo(name = "albumName")
     private String albumName;
 
     /**
      * the album cover image url;
      */
+    @ColumnInfo(name = "albumCover")
     private String albumCover;
+
+    @ColumnInfo(name = "artistName")
+    private String artistName;
+
+
+    public Songs(long id, String title, int duration, String albumName, String albumCover, String artistName) {
+        this.id = id;
+        this.title = title;
+        this.duration = duration;
+        this.albumName = albumName;
+        this.albumCover = albumCover;
+        this.artistName = artistName;
+    }
 
     public long getId() {
         return id;
@@ -90,5 +100,14 @@ public class Songs {
         int second = duration % 60;
         return String.format(Locale.getDefault(), "%d:%02d", minute, second);
     }
+
+    public String getArtistName() {
+        return artistName;
+    }
+
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
+    }
+
 
 }
