@@ -1,6 +1,7 @@
 package algonquin.cst2335.myapplication;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -24,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +39,7 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,6 +76,8 @@ public class Deezer extends AppCompatActivity {
 
     protected Bitmap albumCover;
 
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DeezerBinding.inflate(getLayoutInflater());
@@ -84,10 +89,16 @@ public class Deezer extends AppCompatActivity {
         androidx.appcompat.widget.Toolbar toolBar = (binding.toolbar);
         setSupportActionBar(toolBar);
 
+        binding.searchButton.setOnClickListener(click -> {
+            Intent intent = new Intent(this, Deezer.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+        });
 
         binding.playlistPageButton.setOnClickListener(click -> {
-            startActivity(new Intent(this, playlist.class));
-        });
+            Intent intent = new Intent(this, playlist.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);});
 
         binding.deezerAlbums.setLayoutManager(new LinearLayoutManager(this));
         albumModel = new ViewModelProvider(this).get(AlbumsViewModel.class);
@@ -276,6 +287,33 @@ public class Deezer extends AppCompatActivity {
 
         }
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+         super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.deezer_menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.sunrise:
+//                startActivity(new Intent(this, Sunrise.class));
+                break;
+            case R.id.dictionary:
+//                startActivity(new Intent(this, dictionary.class));
+                break;
+            case R.id.recipe:
+//                startActivity(new Intent(this, dictionary.class));
+                break;
+        }
+
+        return true;
+    }
+
 
 
 //    @Override

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
-    <item android:title="Song Details"
+    <item android:title="Preview Song"
         android:id="@+id/songPreview"
         />
 
