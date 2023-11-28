@@ -95,10 +95,10 @@ public class Deezer extends AppCompatActivity {
             startActivity(intent);
         });
 
-        binding.playlistPageButton.setOnClickListener(click -> {
-            Intent intent = new Intent(this, playlist.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivity(intent);});
+        binding.playlistPageButton.setOnClickListener(click ->{
+            startActivity(new Intent(this,playlist.class));
+        });
+
 
         binding.deezerAlbums.setLayoutManager(new LinearLayoutManager(this));
         albumModel = new ViewModelProvider(this).get(AlbumsViewModel.class);

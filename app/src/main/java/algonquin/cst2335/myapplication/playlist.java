@@ -58,9 +58,8 @@ public class playlist extends AppCompatActivity {
         });
 
         binding.playlistPageButton.setOnClickListener(click -> {
-            Intent intent = new Intent(this, playlist.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivity(intent);});
+            startActivity(new Intent(this, playlist.class));
+        });
 
 
 
