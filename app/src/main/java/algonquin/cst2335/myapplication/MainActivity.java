@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.recipeButton.setOnClickListener(click ->
+        binding.dictionaryButton.setOnClickListener(click ->
                 startActivity(new Intent(this,.class)));
     }
 }
