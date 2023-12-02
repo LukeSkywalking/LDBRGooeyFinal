@@ -1,4 +1,4 @@
-package algonquin.cst2335.myapplication;
+package algonquin.cst2335.myapplication.deezer;
 
 
 import androidx.room.Dao;
@@ -12,7 +12,7 @@ import java.util.List;
 public interface DeezerDao {
 
 @Insert
-    public long insertSong(Songs song);
+    long insertSong(Songs song);
 
 @Query("Select * from Songs")
     List<Songs> getAllSongs();
@@ -20,4 +20,8 @@ public interface DeezerDao {
 @Delete
     void deleteSongFromPlayList(Songs song);
 
+    @Query("SELECT * FROM Songs WHERE title = :title")
+
+    List<Songs> searchSong(String title);
 }
+

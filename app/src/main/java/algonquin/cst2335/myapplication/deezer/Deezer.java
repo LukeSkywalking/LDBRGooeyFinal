@@ -1,34 +1,27 @@
-package algonquin.cst2335.myapplication;
+package algonquin.cst2335.myapplication.deezer;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.Toolbar;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -36,26 +29,17 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.snackbar.Snackbar;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
+import algonquin.cst2335.myapplication.R;
 import algonquin.cst2335.myapplication.databinding.AlbumBinding;
 import algonquin.cst2335.myapplication.databinding.DeezerBinding;
-import algonquin.cst2335.myapplication.databinding.SongBinding;
 
 public class Deezer extends AppCompatActivity {
     private RecyclerView.Adapter myAdapter;
@@ -68,6 +52,8 @@ public class Deezer extends AppCompatActivity {
     AlbumsViewModel albumModel;
 
     DeezerBinding binding;
+
+    SongsViewModel songsModel;
 
     SharedPreferences sp;
     AlbumBinding ab;
@@ -84,12 +70,12 @@ public class Deezer extends AppCompatActivity {
         queue = Volley.newRequestQueue(this);
         setContentView(binding.getRoot());
 
-        setTitle(R.string.app_name);
+        setTitle("Your Deezer Artists");
 
         androidx.appcompat.widget.Toolbar toolBar = (binding.toolbar);
         setSupportActionBar(toolBar);
 
-        binding.searchButton.setOnClickListener(click -> {
+        binding.searchPageButton.setOnClickListener(click -> {
             Intent intent = new Intent(this, Deezer.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
@@ -105,6 +91,13 @@ public class Deezer extends AppCompatActivity {
 
         binding.searchButton.setOnClickListener(c -> {
             String searchedText = binding.searchText.getText().toString().trim();
+
+//            sp = getSharedPreferences("myData", Context.MODE_PRIVATE);
+//            sp.getString("artistsSearched", searchedText);
+//            SharedPreferences.Editor editor = sp.edit();
+//            editor.putString("artistsSearched", searchedText);
+//            editor.apply();
+
 
             String stringURL = null;
             try {
@@ -135,6 +128,8 @@ public class Deezer extends AppCompatActivity {
 
                                 DeezerAlbum album = new DeezerAlbum(albumId, albumName, artistName, albumCoverUrl);
                                 albumsList.add(album);
+                                albumModel.deezerAlbum.postValue(albumsList);
+
                             }
                             // Notify the adapter that the data set has changed
                             myAdapter.notifyDataSetChanged();
@@ -175,6 +170,7 @@ public class Deezer extends AppCompatActivity {
 
                                             Songs track = new Songs(trackId, trackTitle, duration, album.getTitle(), album.getCoverUrl(), artistName);
                                             songsList.add(track);
+                                            songsModel.songs.postValue(songsList);
                                         }
                                         // Notify the adapter that the data set has changed
                                         myAdapter.notifyDataSetChanged();
@@ -244,14 +240,6 @@ public class Deezer extends AppCompatActivity {
             albumName = itemView.findViewById(R.id.albumName);
             artistName = itemView.findViewById(R.id.artistName);
             imageView = itemView.findViewById(R.id.albumCover);
-//            albumMenu = itemView.findViewById(R.id.albumBar);
-
-//            albumMenu.setOnClickListener(v -> {
-//                // Implement your toolbar-like functionality here
-//                // For example, you might show a popup menu:
-//                showAlbumOptionsMenu(v, getAbsoluteAdapterPosition());
-//            });
-
         }
 
 
@@ -313,94 +301,6 @@ public class Deezer extends AppCompatActivity {
 
         return true;
     }
-
-
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        super.onCreateOptionsMenu(menu);
-//        getMenuInflater().inflate(R.menu.albummenu, menu);
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//
-//        ArrayList<DeezerAlbum> albumsListDetails = new ArrayList<>();
-//
-//
-//        switch (item.getItemId()) {
-//            // Construct the URL for the Deezer API to search for albums
-//            case R.id.albumDetails:
-//
-//
-//                break;
-//
-//
-//        }
-//        return true;
-//    }
-
-
-//        if(albumsList ==null)
-//
-//    {
-//        albumModel.deezerAlbum.setValue(albumsList = new ArrayList<>());
-//
-//        Executor thread = Executors.newSingleThreadExecutor();
-//        {
-//            albumsList.addAll()
-//        }
-//    }
-
-//
-//    class MySongHolder extends RecyclerView.ViewHolder {
-//        TextView songName;
-//        TextView artistName;
-//        ImageView imageView;
-//
-//        Toolbar songMenu;
-//
-//        public MySongHolder(@NonNull View itemView) {
-//            super(itemView);
-//
-//
-//            songName = itemView.findViewById(R.id.songName);
-//            artistName = itemView.findViewById(R.id.artistName);
-//            songMenu = itemView.findViewById(R.id.toolbar);
-//
-//        }
-//    }
-
-
-//            binding.deezerSongs.setAdapter(new RecyclerView.Adapter<MySongHolder>()
-//
-//    {
-//        @NonNull
-//        @Override
-//        // responsible for creating a layout for a row and setting the Text views in code.
-//        public MySongHolder onCreateViewHolder (@NonNull ViewGroup parent,int viewType){
-//        SongBinding binding = SongBinding.inflate(getLayoutInflater());
-//        return new MySongHolder(binding.getRoot());
-//    }
-//
-//        @Override
-//        public void onBindViewHolder (@NonNull MySongHolder holder,int position){
-//                Songs song = songsList.get(position);
-//                holder.songName.setText(song.songTitle);
-//                holder.artistName.setText(song.artistName);
-//
-//    }
-//
-//        @Override
-//        public int getItemCount () {
-//        return songsList.size();
-//    }
-//
-//
-//    });
-//
-
 }
 
 
