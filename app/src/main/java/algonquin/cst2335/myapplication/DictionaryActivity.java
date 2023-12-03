@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -40,6 +41,7 @@ import java.util.concurrent.Executors;
 
 public class DictionaryActivity extends AppCompatActivity{
 
+    private AppDatabase appDatabase;
     private RecyclerView recyclerView;
     private EditText searchEditText;
     private Button searchButton;
@@ -53,7 +55,7 @@ public class DictionaryActivity extends AppCompatActivity{
     private WordDefinitionAdapter adapter;
 
     private WordDefinitionDao wordDAO;
-    private AppDatabase appDatabase;
+
     RequestQueue queue;
 
     @Override
@@ -67,8 +69,6 @@ public class DictionaryActivity extends AppCompatActivity{
         searchEditText = findViewById(R.id.search_edit_text);
         searchButton = findViewById(R.id.search_button);
         viewSavedButton = findViewById(R.id.view_saved_button);
-
-        appDatabase = AppDatabase.getInstance(this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -197,12 +197,12 @@ public class DictionaryActivity extends AppCompatActivity{
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             TextView definitionTextView;
-//            androidx.appcompat.widget.Toolbar definitionsMenu;
+            androidx.appcompat.widget.Toolbar definitionsMenu;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 definitionTextView = itemView.findViewById(R.id.meaning_text_view);
-//                definitionsMenu = itemView.findViewById(R.id.definitionsTB);
+                definitionsMenu = itemView.findViewById(R.id.definitionsTB);
             }
 
             public void bind(String definition) {
@@ -222,6 +222,59 @@ public class DictionaryActivity extends AppCompatActivity{
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             String definition = wordDefinitionsList.get(position).getDefinitions();
             holder.bind(definition);
+
+            appDatabase = Room.databaseBuilder(DictionaryActivity.this,AppDatabase.class,"dictionaryDB").build();
+            WordDefinitionDao wordDAO = appDatabase.wordDefinitionDao();
+            androidx.appcompat.widget.Toolbar toolbar = holder.definitionsMenu;
+            toolbar.inflateMenu(R.menu.definitions_menu);
+
+            toolbar.setOnMenuItemClickListener(item ->{
+                switch (item.getItemId()){
+                    case R.id.saveDef:
+                        AlertDialog.Builder builder = new AlertDialog.Builder(DictionaryActivity.this);
+                        builder.setMessage("Do you want to add this Definition to your Favourites?")
+                                .setTitle("Add")
+                                .setNegativeButton("No", (dialog, which) -> {
+                                })
+                                .setPositiveButton("Yes", (dialog, which) -> {
+
+                                    WordDefinitionEntity definitionToAdd = wordDefinitionsList.get(position);
+                                    favsList.add(definitionToAdd);
+
+                                    if (definitionToAdd != null) {
+                                        adapter.notifyItemChanged(position);
+                                        Executor thread1 = Executors.newSingleThreadExecutor();
+                                        thread1.execute(() -> {
+                                            try {
+                                                // Ensure that the insertSong method is correctly implemented
+                                                long result = wordDAO.insertWordDefinition(definitionToAdd);
+                                                Log.d("InsertResult", "Rows affected: " + result);
+                                            } catch (Exception e) {
+                                                Log.e("InsertError", "Error inserting song", e);
+                                            }
+                                        });
+
+                                        // Log to check if the song is being added to the list
+                                        Log.d("definition", "definition to add: " + definitionToAdd.toString());
+
+                                        Snackbar.make(findViewById(android.R.id.content), "defintion added to favourites", Snackbar.LENGTH_LONG)
+                                                .setAction("Undo", (btn) -> {
+                                                    Executor thread2 = Executors.newSingleThreadExecutor();
+                                                    thread2.execute(() -> {
+                                                        // undo the addition from the database
+                                                        wordDAO.deleteWordDefinition(definitionToAdd);
+                                                    });
+
+                                                    wordDefinitionsList.remove(definitionToAdd);
+                                                    adapter.notifyItemChanged(position);
+                                                })
+                                                .show();
+                                    }
+                                });
+                        builder.create().show();
+                }
+                return false;
+            });
         }
 
         @Override
