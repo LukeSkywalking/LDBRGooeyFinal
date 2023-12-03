@@ -2,6 +2,7 @@ package algonquin.cst2335.myapplication;
 
 import static androidx.core.content.ContentProviderCompat.requireContext;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -91,36 +92,14 @@ public class DictionaryActivity extends AppCompatActivity{
         });
 
         viewSavedButton.setOnClickListener(v -> {
-            wordDefinitionsList.clear();
-            wordDefinitionsList.addAll(appDatabase.wordDefinitionDao().getAllWordDefinitions());
-            adapter.notifyDataSetChanged();
+            Intent intent = new Intent(this, SavedPage.class);
+            startActivity(intent);
         });
 
     }
 
-    private void parseAndSaveDefinitions(String word, String definitionsString) {
-        // Create a WordDefinitionEntity instance and save it to the database
-        WordDefinitionEntity wordDefinition = new WordDefinitionEntity(word, definitionsString);
-        appDatabase.wordDefinitionDao().insertWordDefinition(wordDefinition);
 
-        // Update RecyclerView with the newly added word definition
-        wordDefinitionsList.clear();
-        wordDefinitionsList.addAll(appDatabase.wordDefinitionDao().getAllWordDefinitions());
-        adapter.notifyDataSetChanged();
-    }
 
-//    @Override
-//    public void onItemClick(String selectedDefinition) {
-//        DefinitionsFragment definitionsFragment = new DefinitionsFragment();
-//        Bundle args = new Bundle();
-//        args.putString("selectedDefinition", selectedDefinition);
-//        definitionsFragment.setArguments(args);
-//
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.definitionsRV, definitionsFragment)
-//                .addToBackStack(null)
-//                .commit();
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

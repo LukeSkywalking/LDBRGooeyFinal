@@ -1,4 +1,5 @@
 package algonquin.cst2335.myapplication;
+import androidx.annotation.ColorLong;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 

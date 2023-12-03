@@ -15,6 +15,9 @@ public interface WordDefinitionDao {
     @Query("SELECT * FROM word_definitions")
     List<WordDefinitionEntity> getAllWordDefinitions();
 
+    @Query("SELECT * FROM word_definitions")
+    List<WordDefinitionEntity> getAllWords();
+
     @Delete
     void deleteWordDefinition(WordDefinitionEntity wordDefinition);
 }
