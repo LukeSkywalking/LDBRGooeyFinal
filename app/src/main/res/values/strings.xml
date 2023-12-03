@@ -1,3 +1,43 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Recipe Search</string>
+    <string name="help_title">Help</string>
+    <!-- Strings used for fragments for navigation -->
+
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="enter_recipe_name">Please enter a recipe name</string>
+    <string name="error_fetching_recipes">Error fetching recipes</string>
+    <string name="no_recipes_found">No recipes found</string>
+    <string name="delete_recipe_title">Delete Recipe</string>
+    <string name="delete_recipe_message">Are you sure you want to delete this recipe?</string>
+    <string name="delete_recipe_positive_button">Yes</string>
+    <string name="delete_recipe_negative_button">No</string>
+    <string name="enter_keyword">Enter recipe name or keyword</string>
+    <string name="search">Search</string>
+
+    <string name="lorem_ipsum" translatable="false">
+        Lorem ipsum dolor sit amet,
+    </string>
+    <string name="help_message">Recipe App User Guide
+
+        Step 1: Search for Recipes
+        Enter the name of the recipe you are looking for in the search bar.
+    Click on the "Search" button.
+        Step 2: Explore Search Results
+Browse through the list of recipes that match your search.
+Each recipe includes a title, image, and a brief summary.
+        Step 3: View Recipe Details
+Click on a recipe to view more details.
+Explore the full recipe, including the source URL for more information.
+Long-press on a recipe to delete it from your saved recipes.
+        Step 4: Save/Delete Recipes
+To save a recipe, simply click on it to view details, and it will be added to your saved recipes.
+To delete a recipe, long-press on the recipe in the list and confirm the deletion.
+        Step 5: Access Help
+Click on the menu icon (three dots) in the top-right corner.
+Select "Help" to access additional instructions and tips on using the application
+
+
+    </string>
+    <string name="welcome_message">Application for Recipes</string>
 </resources>

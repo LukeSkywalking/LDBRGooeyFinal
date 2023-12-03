@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="26dp">
+
+    <FrameLayout
+        android:id="@+id/frameLayoutToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="4dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"/>
+
+    </FrameLayout>
+
+
+    <EditText
+        android:id="@+id/editTextRecipe"
+        android:layout_width="357dp"
+        android:layout_height="63dp"
+        android:layout_below="@id/frameLayoutToolbar"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="26dp"
+        android:hint="Enter Recipe" />
+
+    <Button
+        android:id="@+id/buttonSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextRecipe"
+        android:layout_marginTop="11dp"
+        android:text="Search" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRecipes"
+        android:layout_width="348dp"
+        android:layout_height="443dp"
+        android:layout_below="@id/buttonSearch"
+        android:layout_marginTop="12dp" />
+
+</RelativeLayout>

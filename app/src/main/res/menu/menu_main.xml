@@ -1,0 +1,14 @@
+<!-- res/menu/menu_main.xml -->
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_help"
+        android:title="Help"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_recipes"
+        android:title="Recipes"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+</menu>
