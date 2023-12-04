@@ -43,11 +43,14 @@ public class SavedPage extends AppCompatActivity {
 
     private WordAdapter wordAdapter;
     private RecyclerView recyclerView;
+    androidx.appcompat.widget.Toolbar toolbar;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = SavedpageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        toolbar = findViewById(R.id.savePageToolBar);
+        setSupportActionBar(toolbar);
         wordModel = new ViewModelProvider(this).get(WordViewModel.class);
 
         appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "dictionaryDB").build();
@@ -170,7 +173,7 @@ public class SavedPage extends AppCompatActivity {
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 
     private void showHelpInformation() {
@@ -178,7 +181,14 @@ public class SavedPage extends AppCompatActivity {
         builder.setTitle("Help Information");
 
         // Display help information in a dialog
-        String helpText = "Your help information goes here...";
+        String helpText = "Enter a word into the search bar. Then press search. A list of definitions " +
+                "will appear below the search bar. To save a definition, press the icon to the right of the definition. A message " +
+                "will show up at the bootom of your screen if you want to undo, click undo if you would like to undo the save." +
+                " If you want to view your saved words, click the button at the bottom of the page that says View Saved Terms." +
+                " It will bring you to a new page that shows all of the words you saved. You can then scroll through your words and " +
+                "click the 'i' icon to the right of the word to view the definitions of all of the words. When in the view page, you" +
+                " can click on the delete icon on the right of the definition if you want to delete the definition. To go back press " +
+                "the back button that is apart of your device. ";
         builder.setMessage(helpText);
 
         builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
