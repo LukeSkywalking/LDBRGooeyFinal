@@ -42,7 +42,13 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import algonquin.cst2335.myapplication.databinding.SearchDictionaryBinding;
-
+/**
+ * DictionaryActivity represents the main activity for searching word definitions,
+ * displaying search results, saving definitions to favorites, and managing the user interface.
+ *
+ * This activity integrates Room Database, Volley for network requests, and RecyclerView
+ * to display search results and manage saved definitions as favorites.
+ */
 public class DictionaryActivity extends AppCompatActivity{
 
     private AppDatabase appDatabase;
@@ -63,7 +69,11 @@ public class DictionaryActivity extends AppCompatActivity{
 
     SearchDictionaryBinding binding;
     RequestQueue queue;
-
+    /**
+     * Initializes the activity layout, sets up the toolbar, RecyclerView, and click listeners for buttons.
+     *
+     * @param savedInstanceState The saved state of the activity (if available)
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +116,9 @@ public class DictionaryActivity extends AppCompatActivity{
     }
 
 
-
+    /**
+     * Displays help information in an AlertDialog when the help menu item is selected.
+     */
     private void showHelpInformation() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Help Information");
@@ -127,6 +139,12 @@ public class DictionaryActivity extends AppCompatActivity{
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+    /**
+     * Handles the response from the API containing word definitions and populates the RecyclerView with the data.
+     *
+     * @param response   The JSON response received from the API
+     * @param searchTerm The term used for the search
+     */
     private void handleResponse(JSONArray response, String searchTerm) {
         try {
             wordDefinitionsList.clear(); // Clear the existing list
@@ -158,7 +176,9 @@ public class DictionaryActivity extends AppCompatActivity{
             Toast.makeText(DictionaryActivity.this, "Error parsing response", Toast.LENGTH_SHORT).show();
         }
     }
-
+    /**
+     * Custom adapter for displaying word definitions in a RecyclerView and managing favorites.
+     */
     public class WordDefinitionAdapter extends RecyclerView.Adapter<WordDefinitionAdapter.ViewHolder> {
 
         private List<WordDefinitionEntity> wordDefinitionsList;
@@ -167,7 +187,9 @@ public class DictionaryActivity extends AppCompatActivity{
         public WordDefinitionAdapter(List<WordDefinitionEntity> wordDefinitionsList) {
             this.wordDefinitionsList = wordDefinitionsList;
         }
-
+        /**
+         * ViewHolder class for displaying word definitions and managing favorites in RecyclerView items.
+         */
         public class ViewHolder extends RecyclerView.ViewHolder {
             TextView definitionTextView;
             androidx.appcompat.widget.Toolbar definitionsMenu;
@@ -177,20 +199,35 @@ public class DictionaryActivity extends AppCompatActivity{
                 definitionTextView = itemView.findViewById(R.id.meaning_text_view);
                 definitionsMenu = itemView.findViewById(R.id.definitionsTB);
             }
-
+            /**
+             * Binds a definition to the ViewHolder item.
+             *
+             * @param definition The definition text to be displayed
+             */
             public void bind(String definition) {
                 definitionTextView.setText(definition);
 
             }
         }
-
+        /**
+         * Called by RecyclerView when it needs a new ViewHolder of the given type to represent an item.
+         *
+         * @param parent   The ViewGroup into which the new View will be added after it is bound to an adapter position
+         * @param viewType The type of the new View
+         * @return A new ViewHolder that holds a View of the given view type
+         */
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.meaning, parent, false);
             return new ViewHolder(view);
         }
-
+        /**
+         * Called by RecyclerView to display the data at the specified position.
+         *
+         * @param holder   The ViewHolder which should be updated to represent the contents of the item at the given position
+         * @param position The position of the item within the adapter's data set
+         */
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             String definition = wordDefinitionsList.get(position).getDefinitions();
@@ -248,20 +285,34 @@ public class DictionaryActivity extends AppCompatActivity{
                 return false;
             });
         }
-
+        /**
+         * Returns the total number of items in the data set held by the adapter.
+         *
+         * @return The total number of items in this adapter's data set
+         */
         @Override
         public int getItemCount() {
             return wordDefinitionsList.size();
         }
     }
 
-
+    /**
+     * Inflates the options menu in the activity toolbar.
+     *
+     * @param menu The options menu in which items are placed
+     * @return True for the menu to be displayed; false otherwise
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu,menu);
         return true;
     }
-
+    /**
+     * Handles options menu item selections.
+     *
+     * @param item The menu item that was selected
+     * @return True if the selection was handled; false otherwise
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -274,13 +325,20 @@ public class DictionaryActivity extends AppCompatActivity{
 
         return false;
     }
-    // Function to save the searched word to SharedPreferences
+    /**
+     * Saves the searched word to SharedPreferences.
+     *
+     * @param searchTerm The word to be saved
+     */
     private void saveSearchedWord(String searchTerm) {
         SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("last_searched_word", searchTerm);
         editor.apply();
     }
+    /**
+     * Retrieves the last searched word from SharedPreferences and sets it in the search EditText on activity resume.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -290,7 +348,11 @@ public class DictionaryActivity extends AppCompatActivity{
         searchEditText.setText(lastSearchedWord);
     }
 
-    // Function to retrieve the last searched word from SharedPreferences
+    /**
+     * Retrieves the last searched word from SharedPreferences.
+     *
+     * @return The last searched word
+     */
     private String getSavedSearchedWord() {
         SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         return preferences.getString("last_searched_word", "");

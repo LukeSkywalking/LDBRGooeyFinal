@@ -22,7 +22,10 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import algonquin.cst2335.myapplication.databinding.FragmentDefinitionsBinding;
-
+/**
+ * WordDetailsFragment displays a list of words and their definitions in a fragment view.
+ * It utilizes RecyclerView to present the word and its definitions and offers an option to delete words from favorites.
+ */
 public class WordDetailsFragment extends Fragment {
 
     private FragmentDefinitionsBinding binding;
@@ -36,10 +39,22 @@ public class WordDetailsFragment extends Fragment {
     private WordandDefinitionAdapters adapter;
 
 
-
+    /**
+     * Constructs a WordDetailsFragment with definitions.
+     *
+     * @param definitions The definitions associated with the word
+     */
     public WordDetailsFragment(String definitions) {
         this.definitions = definitions;
     }
+    /**
+     * Creates and returns the fragment view hierarchy.
+     *
+     * @param inflater           The LayoutInflater object used to inflate any views in the fragment
+     * @param container          The parent view that the fragment UI should be attached to
+     * @param savedInstanceState A Bundle object containing the saved state of the fragment
+     * @return The root view of the fragment's layout
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentDefinitionsBinding.inflate(inflater, container, false);
@@ -72,21 +87,38 @@ public class WordDetailsFragment extends Fragment {
 
         return binding.getRoot();
     }
-
+    /**
+     * Adapter class for displaying word definitions in RecyclerView.
+     */
     public class WordandDefinitionAdapters extends RecyclerView.Adapter<WordandDefinitionAdapters.ViewHolder> {
         private List<WordDefinitionEntity> wordList;
-
+        /**
+         * Constructor for WordandDefinitionAdapters.
+         *
+         * @param wordDefinitionsList The list of word definitions to be displayed
+         */
         public WordandDefinitionAdapters(List<WordDefinitionEntity> wordDefinitionsList) {
             this.wordList = wordDefinitionsList;
         }
-
+        /**
+         * Creates a new ViewHolder object by inflating the layout for an item view.
+         *
+         * @param parent   The ViewGroup into which the new View will be added
+         * @param viewType The type of the new View
+         * @return A new ViewHolder that holds a View of the given view type
+         */
         @NonNull
         @Override
         public WordandDefinitionAdapters.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.meaning, parent, false);
             return new WordandDefinitionAdapters.ViewHolder(view);
         }
-
+        /**
+         * Binds the data to the views within the ViewHolder.
+         *
+         * @param holder   The ViewHolder to bind data to
+         * @param position The position of the item within the adapter's data set
+         */
         @Override
         public void onBindViewHolder(@NonNull WordandDefinitionAdapters.ViewHolder holder, int position) {
             wordTextView.setText(wordList.get(position).getWord());
@@ -139,11 +171,17 @@ public class WordDetailsFragment extends Fragment {
             });
             holder.bind(definition);
         }
-
+        /**
+         * Gets the total number of items in the data set held by the adapter.
+         *
+         * @return The total number of items in the data set
+         */
         public int getItemCount() {
             return wordList.size();
         }
-
+        /**
+         * ViewHolder class for the RecyclerView item.
+         */
         public class ViewHolder extends RecyclerView.ViewHolder {
             TextView definitionTextView;
 
@@ -154,7 +192,11 @@ public class WordDetailsFragment extends Fragment {
                 definitionTextView = itemView.findViewById(R.id.meaning_text_view);
                 definitionsMenu = itemView.findViewById(R.id.definitionsTB);
             }
-
+            /**
+             * Binds a definition to the ViewHolder's TextView.
+             *
+             * @param definition The definition text to bind
+             */
             public void bind(String definition) {
                 definitionTextView.setText(definition);
 
