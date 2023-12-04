@@ -8,7 +8,8 @@
     tools:context=".RecipeDetailsActivity"
     android:orientation="vertical">
     <androidx.appcompat.widget.Toolbar
-        app:title="Recipe Details"
+        app:title="Recipe Details:"
+
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"/>
 <ScrollView
@@ -24,7 +25,6 @@
         android:id="@+id/textViewSummaryDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Recipe Name"
         android:textSize="20sp"
         android:textColor="@color/black"
         android:textStyle="bold"/>

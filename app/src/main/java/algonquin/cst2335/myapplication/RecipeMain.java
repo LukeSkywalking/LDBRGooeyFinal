@@ -1,6 +1,8 @@
 package algonquin.cst2335.myapplication;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,7 +16,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,41 +41,6 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
     private RecipeRepository recipeRepository;
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_help) {
-            // Show AlertDialog with instructions
-            showHelpDialog();
-            return true;
-        }
-        if (id == android.R.id.home) {
-            // Handle the Up button (back button) click
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    private void showHelpDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.help_title);
-        builder.setMessage(getString(R.string.help_message)); // Replace with actual instructions
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Handle the "OK" button click if needed
-            }
-        });
-
-        builder.show();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_main);
@@ -92,6 +58,10 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        // Retrieve the saved search term and set it in the search field
+        String savedSearchTerm = getSavedSearchTerm();
+        editTextRecipe.setText(savedSearchTerm);
 
         // Set up RecyclerView
         recipeList = new ArrayList<>();
@@ -115,7 +85,22 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
         });
     }
 
+    private String getSavedSearchTerm() {
+        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        return sharedPreferences.getString("searchTerm", "");
+    }
+
+    private void saveSearchTerm(String searchTerm) {
+        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("searchTerm", searchTerm);
+        editor.apply();
+    }
+
     private void performRecipeSearch(String query) {
+        // Save the search term to SharedPreferences
+        saveSearchTerm(query);
+
         // Replace "YOUR_API_KEY" with your actual Spoonacular API key
         String apiKey = "b3013f46886845fcb8a9f6d64e736c2f";
         String searchUrl = "https://api.spoonacular.com/recipes/complexSearch?query=" + query + "&apiKey=" + apiKey;

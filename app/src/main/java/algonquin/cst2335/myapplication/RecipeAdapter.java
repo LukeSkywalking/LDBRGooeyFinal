@@ -1,6 +1,8 @@
 package algonquin.cst2335.myapplication;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Query;
+
 import com.bumptech.glide.Glide;
 
 
@@ -16,6 +21,7 @@ import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
 
+    private RecipeDAO dao;
     private List<Recipe> recipes;
     //private Context context;
     private OnRecipeDeleteListener deleteListener;
@@ -60,8 +66,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 }
             }
         });
+
         // Implement a click listener if needed
         holder.itemView.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 Recipe clickedRecipe = recipes.get(position);
@@ -76,6 +84,23 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 holder.itemView.getContext().startActivity(intent);
 
             }
+//public void onClick(View v) {
+//    Recipe clickedRecipe = recipes.get(position);
+//    // Create SharedPreferences.Editor to store data
+//    editor.putString("id", recipe.getId());
+//    editor.apply();
+//
+//    // Create an Intent to start SecondActivity
+//    Intent nextPage = new Intent(holder.itemView.getContext(), RecipeDetailsActivity.class);
+//
+//    // Pass necessary details to SecondActivity
+//    nextPage.putExtra("ID", clickedRecipe.getId());
+//
+//    // Start SecondActivity
+//    holder.itemView.getContext().startActivity(nextPage);
+//}
+
+
         });
     }
     @Override

@@ -1,8 +1,10 @@
 package algonquin.cst2335.myapplication;
 // RecipeDetailsActivity.java
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,96 +35,101 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     private TextView textViewSummaryDetails;
     private Button buttonSaveRecipe;
     ArrayList<Recipe> recipesList = new ArrayList<>();
-    RequestQueue queue;
+    private RequestQueue queue;
     private RecyclerView.Adapter myAdapter;
     protected String recipeName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("RecipeDetailsActivity", "onCreate called");
+        queue = (RequestQueue) Volley.newRequestQueue(this);
 
         binding = ActivityRecipeDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setContentView(R.layout.activity_recipe_details);
-
         // Initialize UI elements
-        imageViewRecipeDetails = findViewById(R.id.imageViewRecipeDetails);
-//        textViewSummaryDetails = findViewById(R.id.textViewSummaryDetails);
-        buttonSaveRecipe = findViewById(R.id.buttonSaveRecipe);
-        textViewTitleDetails = findViewById(R.id.textViewTitleDetails);
-        if (binding!= null) {
-            binding.textViewTitleDetails.setText("Your Text");
+        imageViewRecipeDetails = binding.imageViewRecipeDetails;
+        buttonSaveRecipe = binding.buttonSaveRecipe;
+        textViewTitleDetails = binding.textViewTitleDetails;
+
+        Intent fromPrevious = getIntent();
+        String Foodid = fromPrevious.getStringExtra("id");
+
+
+        String searchedText = textViewTitleDetails.getText().toString().trim();
+
+        String stringURL;
+        try {
+            stringURL = "https://api.spoonacular.com/recipes/" +
+                    URLEncoder.encode(Foodid, "UTF-8") +
+                    "/information?apiKey=b3013f46886845fcb8a9f6d64e736c2f"; // Replace YOUR_API_KEY with your actual API key
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
         }
-        binding.textViewTitleDetails.setOnClickListener(c -> {
-            String searchedText = binding.textViewTitleDetails.getText().toString().trim();
 
-            String stringURL;
-            try {
-                stringURL = "https://api.spoonacular.com/recipes/complexSearch?query=" +
-                        URLEncoder.encode(searchedText, "UTF-8") +
-                        "&apiKey=b3013f46886845fcb8a9f6d64e736c2f"; // Replace YOUR_API_KEY with your actual API key
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
+        // Make a GET request to the Spoonacular API
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, stringURL, null,
+                (response) -> {
+                    Log.d("API_RESPONSE", response.toString());
+                    try {
+                        // Check if the response has the necessary details
+                        if (response.has("id") && response.has("title") && response.has("image")) {
+                            long id = response.getLong("id");
+                            String title = response.getString("title");
+                            String image = response.getString("image");
 
-            // Make a GET request to the Spoonacular API
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, stringURL, null,
-                    (response) -> {
-                        try {
-                            // Get the array of recipes from the response
-                            JSONArray recipesArray = response.getJSONArray("results");
+                            Recipe selectedRecipe = new Recipe(String.valueOf(id), title, image, "", "");
 
-                            // Clear the existing recipesList before adding new data
-                            recipesList.clear();
+                            // Update UI based on the selected recipe
+                            binding.textViewTitleDetails.setText(selectedRecipe.getTitle());
 
-                            Recipe recipe = null;
-                            for (int i = 0; i < recipesArray.length(); i++) {
-                                JSONObject recipeObject = recipesArray.getJSONObject(i);
-                                long id = recipeObject.getLong("id");
-                                String title = recipeObject.getString("title");
-                                String image = recipeObject.getString("image");
-                                // You can fetch other details like summary and source URL as needed
+                            String imageUrl = selectedRecipe.getImage();
 
-                                recipe = new Recipe(String.valueOf(id), title, image, "", "");
-
-                                recipesList.add(recipe);
-                            }
-                            // Notify the adapter that the data set has changed
-                            String imageUrl = "https://api.spoonacular.com/recipes/" + recipe.getImage() + ".png";
-
-                            File f = new File(recipeName);
+                            File f = new File(imageUrl);
                             if (f.exists()) {
-                                binding.imageViewRecipeDetails.setImageBitmap(BitmapFactory.decodeFile(recipeName));
+                                imageViewRecipeDetails.setImageBitmap(BitmapFactory.decodeFile(imageUrl));
                             } else {
-                                ImageRequest imgReq = new ImageRequest(imageUrl, bitmap -> binding.imageViewRecipeDetails.setImageBitmap(bitmap),
-                                        1024, 1024, ImageView.ScaleType.CENTER, null, (error) -> {
+                                ImageRequest imgReq = new ImageRequest(image, bitmap -> {
+                                    Log.d("IMAGE_LOAD", "Image loaded successfully");
+                                    imageViewRecipeDetails.setImageBitmap(bitmap);
+                                },
+                                        1024, 1024, ImageView.ScaleType.CENTER, null, error -> {
+                                    Log.e("IMAGE_LOAD_ERROR", error.toString());
                                 });
                                 queue.add(imgReq);
                             }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        } else {
+                            Log.e("API_RESPONSE", "Response is missing necessary details");
                         }
-                    },
-                    error -> {
-                        // Handle error
-                        error.printStackTrace();
-                    });
-            queue.add(request);
-        });
-        // Retrieve recipe details from Intent
-      //String id = getIntent().getStringExtra("id");
-        // Use recipeId to fetch additional details (Image, Summary) and update UI
-        // ...
-
-        // Set a click listener for the Save Recipe button if needed
-        buttonSaveRecipe.setOnClickListener(v -> {
-            // Implement logic to save the recipe to the database
-            // ...
-            saveRecipeToDatabase();
-        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    // Log the error
+                    Log.e("API_ERROR", error.toString());
+                    // Handle error
+                    error.printStackTrace();
+                });
+        queue.add(request);
     }
+
+//        textViewTitleDetails.setOnClickListener(c -> {
+//            )
+//    };
+
+    // Retrieve recipe details from Intent
+    //String id = getIntent().getStringExtra("id");
+    // Use recipeId to fetch additional details (Image, Summary) and update UI
+    // ...
+
+    // Set a click listener for the Save Recipe button if needed
+//        buttonSaveRecipe.setOnClickListener(v ->
+//    {
+//        saveRecipeToDatabase();
+//    });
+
 
 
     private void saveRecipeToDatabase() {

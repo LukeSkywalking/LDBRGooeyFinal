@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class RecipeViewModel extends ViewModel {
 
-    public MutableLiveData<ArrayList<RecipeList>> recipesList = new MutableLiveData<>();
+    public MutableLiveData<ArrayList<RecipeList>> recipeList = new MutableLiveData<>();
 
     public MutableLiveData<RecipeList> selectedRecipe = new MutableLiveData<>();
 
