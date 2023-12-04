@@ -1,4 +1,4 @@
-package algonquin.cst2335.myapplication;
+package algonquin.cst2335.myapplication.dictionary;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;

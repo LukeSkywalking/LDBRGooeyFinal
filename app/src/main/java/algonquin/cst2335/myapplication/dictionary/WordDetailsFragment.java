@@ -1,4 +1,4 @@
-package algonquin.cst2335.myapplication;
+package algonquin.cst2335.myapplication.dictionary;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import algonquin.cst2335.myapplication.R;
 import algonquin.cst2335.myapplication.databinding.FragmentDefinitionsBinding;
 /**
  * WordDetailsFragment displays a list of words and their definitions in a fragment view.

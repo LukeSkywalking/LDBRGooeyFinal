@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import algonquin.cst2335.myapplication.databinding.ActivityMainBinding;
 import algonquin.cst2335.myapplication.deezer.playlist;
+import algonquin.cst2335.myapplication.dictionary.DictionaryActivity;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -19,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         binding.dictionaryButton.setOnClickListener(click ->{
-            startActivity(new Intent(this,DictionaryActivity.class));
+            startActivity(new Intent(this, DictionaryActivity.class));
         });
 
         binding.deezerButton.setOnClickListener(click ->{

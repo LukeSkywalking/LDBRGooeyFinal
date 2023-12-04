@@ -1,6 +1,4 @@
-package algonquin.cst2335.myapplication;
-
-import static androidx.core.content.ContentProviderCompat.requireContext;
+package algonquin.cst2335.myapplication.dictionary;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -26,8 +23,6 @@ import androidx.room.Room;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
@@ -41,6 +36,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import algonquin.cst2335.myapplication.R;
 import algonquin.cst2335.myapplication.databinding.SearchDictionaryBinding;
 /**
  * DictionaryActivity represents the main activity for searching word definitions,

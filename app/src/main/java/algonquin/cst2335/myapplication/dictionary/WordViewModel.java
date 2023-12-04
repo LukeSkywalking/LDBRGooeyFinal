@@ -1,4 +1,4 @@
-package algonquin.cst2335.myapplication;
+package algonquin.cst2335.myapplication.dictionary;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;

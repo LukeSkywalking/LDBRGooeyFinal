@@ -1,9 +1,6 @@
-package algonquin.cst2335.myapplication;
-
-import android.content.Context;
+package algonquin.cst2335.myapplication.dictionary;
 
 import androidx.room.Database;
-import androidx.room.Room;
 import androidx.room.RoomDatabase;
 /**
  * AppDatabase is a Room Database class responsible for handling the persistence of WordDefinitionEntity objects.
