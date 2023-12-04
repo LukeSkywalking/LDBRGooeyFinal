@@ -9,7 +9,6 @@ android {
     buildFeatures{
         viewBinding = true
     }
-
     defaultConfig {
         applicationId = "algonquin.cst2335.myapplication"
         minSdk = 24
@@ -46,7 +45,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.+")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.+")
     implementation ("org.json:json:20210307")
-    val room_version = "2.4.+"
+    val room_version = "2.4.2"
     implementation ("androidx.room:room-runtime:$room_version")
     annotationProcessor ("androidx.room:room-compiler:$room_version")
 }

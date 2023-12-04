@@ -9,7 +9,6 @@ import algonquin.cst2335.myapplication.databinding.ActivityMainBinding;
 import algonquin.cst2335.myapplication.deezer.playlist;
 
 public class MainActivity extends AppCompatActivity {
-
     ActivityMainBinding binding;
 
     @Override
@@ -19,10 +18,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
-        binding.deezerButton.setOnClickListener(click ->{
-           startActivity(new Intent(this, playlist.class));
+        binding.dictionaryButton.setOnClickListener(click ->{
+            startActivity(new Intent(this,DictionaryActivity.class));
         });
 
+        binding.deezerButton.setOnClickListener(click ->{
+            startActivity(new Intent(this, playlist.class));
+        });
 
     }
 }
