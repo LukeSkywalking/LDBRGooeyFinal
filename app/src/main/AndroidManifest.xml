@@ -29,6 +29,7 @@
         <!-- Add the new activity for RecipeDetailsActivity -->
         <activity android:name=".RecipeDetailsActivity"
             android:exported="false"/>
+        <activity android:name=".SavedRecipesActivity" />
     </application>
 
 </manifest>

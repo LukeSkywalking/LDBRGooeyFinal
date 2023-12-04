@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -36,6 +38,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     protected String recipeName;
     private MyVolley myVolley;
     private RecipeRepository repository;
+    private String recipeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,15 +127,30 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         requestQueue.add(request);
 
         // Set a click listener for the Save Recipe button if needed
-        buttonSaveRecipe.setOnClickListener(v -> saveRecipeToDatabase());
+        buttonSaveRecipe.setOnClickListener(v -> saveOrRemoveRecipe());
     }
 
-    private void saveRecipeToDatabase() {
+    private void saveOrRemoveRecipe() {
         // Retrieve recipe details from UI elements
-        String recipeId = getIntent().getStringExtra("id");
+        recipeId = getIntent().getStringExtra("id");
         String title = textViewTitleDetails.getText().toString();
         String summary = textViewSummaryDetails.getText().toString();
 
+        // Check if the recipe is already saved
+        LiveData<RecipeList> savedRecipeLiveData = repository.getRecipeById(recipeId);
+        savedRecipeLiveData.observe(this, recipeList -> {
+            if (recipeList != null) {
+                // Recipe is already saved, remove it from the database
+                removeRecipeFromDatabase(recipeId);
+            } else {
+                // Recipe is not saved, save it to the database
+                saveRecipeToDatabase(recipeId, title, summary);
+            }
+            savedRecipeLiveData.removeObservers(this);
+        });
+    }
+
+    private void saveRecipeToDatabase(String recipeId, String title, String summary) {
         // Create a RecipeList object with the retrieved details
         RecipeList recipe = new RecipeList(recipeId, title, "", summary, "");
 
@@ -142,6 +160,17 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         // Show a confirmation message or navigate to a different screen if needed
         Toast.makeText(RecipeDetailsActivity.this, "Recipe saved to database", Toast.LENGTH_SHORT).show();
     }
+
+    private void removeRecipeFromDatabase(String recipeId) {
+        // Remove the recipe from the database
+        repository.deleteRecipeById(recipeId);
+
+        // Show a confirmation message or navigate to a different screen if needed
+        Toast.makeText(RecipeDetailsActivity.this, "Recipe removed from database", Toast.LENGTH_SHORT).show();
+    }
+
+    public void viewSavedRecipes(View view) {
+        Intent intent = new Intent(this, SavedRecipesActivity.class);
+        startActivity(intent);
+    }
 }
-
-

@@ -51,6 +51,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save this Recipe" />
+        <Button
+            android:id="@+id/buttonViewSavedRecipes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Saved Recipes"
+            android:onClick="viewSavedRecipes" />
     </LinearLayout>
 </ScrollView>
 </LinearLayout>

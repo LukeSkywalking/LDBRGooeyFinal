@@ -25,18 +25,14 @@
     Click on the "Search" button.
         Step 2: Explore Search Results
 Browse through the list of recipes that match your search.
-Each recipe includes a title, image, and a brief summary.
         Step 3: View Recipe Details
 Click on a recipe to view more details.
 Explore the full recipe, including the source URL for more information.
-Long-press on a recipe to delete it from your saved recipes.
         Step 4: Save/Delete Recipes
-To save a recipe, simply click on it to view details, and it will be added to your saved recipes.
-To delete a recipe, long-press on the recipe in the list and confirm the deletion.
+To save a recipe, simply click on save recipe, and it will be added to your saved recipes.
         Step 5: Access Help
 Click on the menu icon (three dots) in the top-right corner.
 Select "Help" to access additional instructions and tips on using the application
-
 
     </string>
     <string name="welcome_message">Application for Recipes</string>

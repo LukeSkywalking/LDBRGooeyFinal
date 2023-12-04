@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRecipeDeleteListener {
-
+    androidx.appcompat.widget.Toolbar toolbar;
     private EditText editTextRecipe;
     private Button buttonSearch;
     private RecyclerView recyclerViewRecipes;
@@ -42,6 +44,8 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_main);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Initialize UI components
         editTextRecipe = findViewById(R.id.editTextRecipe);
@@ -99,7 +103,6 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
         // Save the search term to SharedPreferences
         saveSearchTerm(query);
 
-        // Replace "YOUR_API_KEY" with your actual Spoonacular API key
         String apiKey = "b3013f46886845fcb8a9f6d64e736c2f";
         String searchUrl = "https://api.spoonacular.com/recipes/complexSearch?query=" + query + "&apiKey=" + apiKey;
 
@@ -238,6 +241,50 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
     public void onRecipeDelete(Recipe recipe) {
         showDeleteConfirmationDialog(recipe);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.help) {
+            // Show help information in a dialog
+            showHelpInformation();
+            return true;
+        }
+
+        return false;
+    }
+    private void showHelpInformation() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Help Information");
+
+        // Display help information in a dialog
+        String helpText = " Step 1: Search for Recipes\n" +
+                "        Enter the name of the recipe you are looking for in the search bar.\n" +
+                "    Click on the \"Search\" button.\n" +
+                "        Step 2: Explore Search Results\n" +
+                "Browse through the list of recipes that match your search.\n" +
+                "        Step 3: View Recipe Details\n" +
+                "Click on a recipe to view more details.\n" +
+                "Explore the full recipe, including the source URL for more information.\n" +
+                "        Step 4: Save/Delete Recipes\n" +
+                "To save a recipe, simply click on save recipe, and it will be added to your saved recipes.\n" +
+                "        Step 5: Access Help\n" +
+                "Click on the menu icon (three dots) in the top-right corner.\n" +
+                "Select \"Help\" to access additional instructions and tips on using the application\n";
+        builder.setMessage(helpText);
+
+        builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
 
