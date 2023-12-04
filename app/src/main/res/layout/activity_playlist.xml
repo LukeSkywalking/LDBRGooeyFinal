@@ -10,7 +10,7 @@
     >
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbarPlaylist"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -29,7 +29,7 @@
         android:hint="Search For A Song"
         app:layout_constraintEnd_toStartOf="@+id/searchButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarPlaylist"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         />
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:text="Search"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarPlaylist"
         />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -9,6 +9,7 @@ import algonquin.cst2335.myapplication.Recipe.RecipeMain;
 import algonquin.cst2335.myapplication.databinding.ActivityMainBinding;
 import algonquin.cst2335.myapplication.deezer.playlist;
 import algonquin.cst2335.myapplication.dictionary.DictionaryActivity;
+import algonquin.cst2335.myapplication.sunrise.SunriseMain;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
 
         binding.dictionaryButton.setOnClickListener(click ->{

@@ -1,4 +1,4 @@
-package algonquin.cst2335.myapplication;
+package algonquin.cst2335.myapplication.sunrise;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.widget.Toolbar;
 
 
 import androidx.annotation.NonNull;
@@ -30,11 +28,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import algonquin.cst2335.myapplication.R;
+import algonquin.cst2335.myapplication.Recipe.RecipeMain;
 import algonquin.cst2335.myapplication.databinding.ActivitySunriseMainBinding;
+import algonquin.cst2335.myapplication.deezer.Deezer;
+import algonquin.cst2335.myapplication.dictionary.DictionaryActivity;
 
 public class SunriseMain extends AppCompatActivity {
 
@@ -67,8 +68,8 @@ public class SunriseMain extends AppCompatActivity {
 
         // Initialize views
 
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.sunriseToolbar);
-
+       toolbar = findViewById(R.id.sunriseToolbar);
+       setSupportActionBar(toolbar);
         editTextLatitude = findViewById(R.id.editTextLatitude);
         editTextLongitude = findViewById(R.id.editTextLongitude);
         lookupButton = findViewById(R.id.lookupButton);
@@ -231,21 +232,20 @@ public class SunriseMain extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.deezer:
-                // startActivity(new Intent(this, Sunrise.class));
+                 startActivity(new Intent(this, Deezer.class));
                 break;
             case R.id.dictionary:
-                // startActivity(new Intent(this, dictionary.class));
+                 startActivity(new Intent(this, DictionaryActivity.class));
                 break;
             case R.id.recipe:
-                // startActivity(new Intent(this, dictionaskmdkmary.class)
+                 startActivity(new Intent(this, RecipeMain.class));
                 break;
             case R.id.info:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Welcome to Sunrise and Sunsets to use the app just add in your latitude and longitude coordinates and our application will find the exact moment of when the sunrises and sets at your set location. you can also save your favourite locations with just a click of a button.")
                         .setTitle("Sunrise and Sunsets")
                         .setPositiveButton("Okay", (dialog, which) -> {
-                            dialog.dismiss();});
-
+                            dialog.dismiss();}).show();
         }
         return true;
     }

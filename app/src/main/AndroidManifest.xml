@@ -25,9 +25,9 @@
         <activity android:name=".Recipe.RecipesActivity"
             android:exported="false"/>
         <activity
-            android:name=".SunriseMain"
+            android:name=".sunrise.SunriseMain"
             android:exported="false" />
-        <activity android:name=".favsPage"
+        <activity android:name=".sunrise.favsPage"
             android:exported="false"/>
         <activity
             android:name=".MainActivity"

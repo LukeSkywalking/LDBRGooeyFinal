@@ -2,47 +2,49 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:src="@drawable/ourapp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    >
 
 
     <ImageButton
         android:id="@+id/deezerButton"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="178dp"
         android:background="@android:color/background_dark"
         android:src="@drawable/deezer_logo"
+        app:layout_constraintBottom_toTopOf="@+id/recipeButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/dictionaryButton"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="185dp"
         android:background="@android:color/background_dark"
         android:src="@drawable/dictionary"
         android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/sunrisesunsetButton"
+        app:layout_constraintBottom_toTopOf="@+id/sunriseButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/recipeButton"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="185dp"
         android:background="@android:color/background_dark"
         android:src="@drawable/recipe"
         android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/dictionaryButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deezerButton" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/sunriseButton"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="185dp"
         android:background="@android:color/background_dark"
         android:src="@drawable/sunrise"
         android:text="Button"

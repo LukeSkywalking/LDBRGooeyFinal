@@ -2,6 +2,7 @@ package algonquin.cst2335.myapplication.Recipe;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import algonquin.cst2335.myapplication.R;
+import algonquin.cst2335.myapplication.deezer.Deezer;
+import algonquin.cst2335.myapplication.dictionary.DictionaryActivity;
+import algonquin.cst2335.myapplication.sunrise.SunriseMain;
 
 public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRecipeDeleteListener {
     androidx.appcompat.widget.Toolbar toolbar;
@@ -48,6 +52,8 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
         setContentView(R.layout.recipe_main);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        setTitle("Recipes");
 
         // Initialize UI components
         editTextRecipe = findViewById(R.id.editTextRecipe);
@@ -253,9 +259,18 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-        if (id == R.id.help) {
+        switch (item.getItemId()) {
+            case R.id.sunrise:
+                startActivity(new Intent(this, SunriseMain.class));
+                break;
+            case R.id.dictionary:
+                startActivity(new Intent(this, DictionaryActivity.class));
+                break;
+            case R.id.deezer:
+                startActivity(new Intent(this, Deezer.class));
+                break;
+            case R.id.help:
             // Show help information in a dialog
             showHelpInformation();
             return true;

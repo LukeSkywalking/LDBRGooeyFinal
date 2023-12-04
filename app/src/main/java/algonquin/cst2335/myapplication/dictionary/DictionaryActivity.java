@@ -37,7 +37,11 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import algonquin.cst2335.myapplication.R;
+import algonquin.cst2335.myapplication.Recipe.RecipeMain;
 import algonquin.cst2335.myapplication.databinding.SearchDictionaryBinding;
+import algonquin.cst2335.myapplication.deezer.Deezer;
+import algonquin.cst2335.myapplication.sunrise.SunriseMain;
+
 /**
  * DictionaryActivity represents the main activity for searching word definitions,
  * displaying search results, saving definitions to favorites, and managing the user interface.
@@ -311,9 +315,17 @@ public class DictionaryActivity extends AppCompatActivity{
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.help) {
+        switch (item.getItemId()) {
+            case R.id.sunrise:
+                startActivity(new Intent(this, SunriseMain.class));
+                break;
+            case R.id.deezer:
+                startActivity(new Intent(this, Deezer.class));
+                break;
+            case R.id.recipe:
+                startActivity(new Intent(this, RecipeMain.class));
+                break;
+            case R.id.help:
             // Show help information in a dialog
             showHelpInformation();
             return true;

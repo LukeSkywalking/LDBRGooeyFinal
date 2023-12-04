@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -39,8 +40,11 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import algonquin.cst2335.myapplication.R;
+import algonquin.cst2335.myapplication.Recipe.RecipeMain;
 import algonquin.cst2335.myapplication.databinding.AlbumBinding;
 import algonquin.cst2335.myapplication.databinding.DeezerBinding;
+import algonquin.cst2335.myapplication.dictionary.DictionaryActivity;
+import algonquin.cst2335.myapplication.sunrise.SunriseMain;
 
 public class Deezer extends AppCompatActivity {
     private RecyclerView.Adapter myAdapter;
@@ -60,6 +64,8 @@ public class Deezer extends AppCompatActivity {
     AlbumBinding ab;
     Songs song;
 
+    androidx.appcompat.widget.Toolbar toolbar;
+
 
     protected Bitmap albumCover;
 
@@ -74,7 +80,7 @@ public class Deezer extends AppCompatActivity {
         setTitle("Your Deezer Artists");
 
         System.out.println(androidx.core.R.id.title);
-        androidx.appcompat.widget.Toolbar toolBar = (binding.toolbar);
+        androidx.appcompat.widget.Toolbar toolBar = findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
 
         binding.searchPageButton.setOnClickListener(click -> {
@@ -82,12 +88,7 @@ public class Deezer extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         });
-        AlertDialog.Builder builder = new AlertDialog.Builder(Deezer.this);
-        builder.setMessage(("Info: \n Create your very own deezer playlists here \n 1. click on the Search Icon to look up your favourite artists and youll receive a list of their albums \n 2. Click on any album and all of their tracks within the album will be displayed for you to save \n 3. click on the 3 dotted icon to preview or save your song \n 4. Go ahead ahead and click the playlist icon and all of your favourite music will be displayed. \n 5. You are able to delete any song from your playlist with a click of a button. \n 6. Most important step Enjoy Deezer"))
-                .setTitle("Welcome To Deezer")
-                .setPositiveButton("Okay", (dialog, which) -> {
-                    dialog.dismiss();
-                });
+
 
         binding.playlistPageButton.setOnClickListener(click ->{
             startActivity(new Intent(this,playlist.class));
@@ -100,11 +101,13 @@ public class Deezer extends AppCompatActivity {
         binding.searchButton.setOnClickListener(c -> {
             String searchedText = binding.searchText.getText().toString().trim();
 
-//            sp = getSharedPreferences("myData", Context.MODE_PRIVATE);
-//            sp.getString("artistsSearched", searchedText);
-//            SharedPreferences.Editor editor = sp.edit();
-//            editor.putString("artistsSearched", searchedText);
-//            editor.apply();
+            if(!searchedText.isEmpty()) {
+                sp = getSharedPreferences("myData", Context.MODE_PRIVATE);
+                sp.getString("artistsSearched", searchedText);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("artistsSearched", searchedText);
+                editor.apply();
+            }
 
 
             String stringURL = null;
@@ -293,17 +296,18 @@ public class Deezer extends AppCompatActivity {
     }
 
 
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.sunrise:
-//                startActivity(new Intent(this, Sunrise.class));
+                startActivity(new Intent(this, SunriseMain.class));
                 break;
             case R.id.dictionary:
-//                startActivity(new Intent(this, dictionary.class));
+                startActivity(new Intent(this, DictionaryActivity.class));
                 break;
             case R.id.recipe:
-//                startActivity(new Intent(this, dictionary.class));
+                startActivity(new Intent(this, RecipeMain.class));
                 break;
             case R.id.info:
                 AlertDialog.Builder builder = new AlertDialog.Builder(Deezer.this);
@@ -311,7 +315,7 @@ public class Deezer extends AppCompatActivity {
                         .setTitle("Welcome To Deezer")
                         .setPositiveButton("Okay", (dialog, which) -> {
                             dialog.dismiss();
-                        });
+                        }).show();
         }
         return true;
     }

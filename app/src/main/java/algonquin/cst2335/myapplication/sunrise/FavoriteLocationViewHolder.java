@@ -1,10 +1,12 @@
-package algonquin.cst2335.myapplication;
+package algonquin.cst2335.myapplication.sunrise;
 
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import algonquin.cst2335.myapplication.R;
 
 public class FavoriteLocationViewHolder extends RecyclerView.ViewHolder {
 

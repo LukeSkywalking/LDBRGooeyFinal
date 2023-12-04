@@ -1,8 +1,7 @@
-package algonquin.cst2335.myapplication;
+package algonquin.cst2335.myapplication.sunrise;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +22,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import algonquin.cst2335.myapplication.R;
 import algonquin.cst2335.myapplication.databinding.FavspageBinding;
 
 public class favsPage extends AppCompatActivity {
