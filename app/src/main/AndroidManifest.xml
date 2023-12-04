@@ -20,14 +20,23 @@
         <activity android:name=".deezer.playlist"
             android:exported="false"/>
         <activity
+            android:name=".RecipeMain"
+            android:exported="false" />
+        <activity android:name=".RecipesActivity"
+            android:exported="false"/>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Add the new activity for RecipeDetailsActivity -->
+        <activity android:name=".RecipeDetailsActivity"
+            android:exported="false"/>
+        <activity android:name=".SavedRecipesActivity" />
     </application>
 
 </manifest>

@@ -1,0 +1,62 @@
+<!-- activity_recipe_details.xml -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".RecipeDetailsActivity"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.Toolbar
+        app:title="Recipe Details:"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"/>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+        android:id="@+id/textViewTitleDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+    <ImageView
+        android:id="@+id/imageViewRecipeDetails"
+        android:layout_width="206dp"
+        android:layout_height="201dp"
+        android:scaleType="centerCrop"/>
+    <TextView
+        android:id="@+id/textViewSummaryDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="normal"
+        android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/sourceUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/buttonSaveRecipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save this Recipe" />
+        <Button
+            android:id="@+id/buttonViewSavedRecipes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Saved Recipes"
+            android:onClick="viewSavedRecipes" />
+    </LinearLayout>
+</ScrollView>
+</LinearLayout>

@@ -27,5 +27,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, playlist.class));
         });
 
+        binding.recipeButton.setOnClickListener(click ->
+                startActivity(new Intent(this,RecipeMain.class)));
     }
 }

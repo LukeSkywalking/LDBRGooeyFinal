@@ -9,11 +9,16 @@
             <type value="VIRTUAL_DEVICE_PATH" />
             <value value="C:\Users\lucha\.android\avd\Pixel_7_pro.avd" />
 <!--            <value value="C:\Users\brade\.android\avd\Pixel_6_Pro_API_27.avd" />-->
+<!--            <value value="C:\Users\dejan\.android\avd\Pixel_4_API_27.avd" />-->
+
           </Key>
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
+
     <timeTargetWasSelectedWithDropDown value="2023-11-21T14:51:26.283782100Z" />
 <!--    <timeTargetWasSelectedWithDropDown value="2023-12-02T21:01:27.882924700Z" />-->
+<!--    <timeTargetWasSelectedWithDropDown value="2023-11-30T05:00:55.294668100Z" />-->
+
   </component>
 </project>
