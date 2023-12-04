@@ -1,6 +1,7 @@
 package algonquin.cst2335.myapplication.deezer;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -72,6 +73,7 @@ public class Deezer extends AppCompatActivity {
 
         setTitle("Your Deezer Artists");
 
+        System.out.println(androidx.core.R.id.title);
         androidx.appcompat.widget.Toolbar toolBar = (binding.toolbar);
         setSupportActionBar(toolBar);
 
@@ -80,6 +82,12 @@ public class Deezer extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         });
+        AlertDialog.Builder builder = new AlertDialog.Builder(Deezer.this);
+        builder.setMessage(("Info: \n Create your very own deezer playlists here \n 1. click on the Search Icon to look up your favourite artists and youll receive a list of their albums \n 2. Click on any album and all of their tracks within the album will be displayed for you to save \n 3. click on the 3 dotted icon to preview or save your song \n 4. Go ahead ahead and click the playlist icon and all of your favourite music will be displayed. \n 5. You are able to delete any song from your playlist with a click of a button. \n 6. Most important step Enjoy Deezer"))
+                .setTitle("Welcome To Deezer")
+                .setPositiveButton("Okay", (dialog, which) -> {
+                    dialog.dismiss();
+                });
 
         binding.playlistPageButton.setOnClickListener(click ->{
             startActivity(new Intent(this,playlist.class));
@@ -287,7 +295,7 @@ public class Deezer extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
+        switch(item.getItemId()) {
             case R.id.sunrise:
 //                startActivity(new Intent(this, Sunrise.class));
                 break;
@@ -297,10 +305,17 @@ public class Deezer extends AppCompatActivity {
             case R.id.recipe:
 //                startActivity(new Intent(this, dictionary.class));
                 break;
+            case R.id.info:
+                AlertDialog.Builder builder = new AlertDialog.Builder(Deezer.this);
+                builder.setMessage(("Info: \n Create your very own deezer playlists here \n 1. click on the Search Icon to look up your favourite artists and youll receive a list of their albums \n 2. Click on any album and all of their tracks within the album will be displayed for you to save \n 3. click on the 3 dotted icon to preview or save your song \n 4. Go ahead ahead and click the playlist icon and all of your favourite music will be displayed. \n 5. You are able to delete any song from your playlist with a click of a button. \n 6. Most important step Enjoy Deezer"))
+                        .setTitle("Welcome To Deezer")
+                        .setPositiveButton("Okay", (dialog, which) -> {
+                            dialog.dismiss();
+                        });
         }
-
         return true;
     }
+
 }
 
 
