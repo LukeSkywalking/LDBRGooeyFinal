@@ -28,7 +28,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
         public ViewHolder(View itemView) {
             super(itemView);
-            itemTextView = itemView.findViewById(R.id.definitionsRV);
         }
 
         public void bind(final String item, final OnItemClickListener listener) {

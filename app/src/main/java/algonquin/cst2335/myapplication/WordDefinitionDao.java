@@ -19,6 +19,7 @@ public interface WordDefinitionDao {
     List<WordDefinitionEntity> getAllWords();
 
     @Delete
-    void deleteWordDefinition(WordDefinitionEntity wordDefinition);
+    void deleteWordDefinition(WordDefinitionEntity word);
+
 }
 

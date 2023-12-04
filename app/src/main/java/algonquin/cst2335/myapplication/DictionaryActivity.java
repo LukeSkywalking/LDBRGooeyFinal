@@ -243,7 +243,6 @@ public class DictionaryActivity extends AppCompatActivity{
                                                         // undo the addition from the database
                                                         wordDAO.deleteWordDefinition(definitionToAdd);
                                                     });
-
                                                     wordDefinitionsList.remove(definitionToAdd);
                                                     adapter.notifyItemChanged(position);
                                                 })
