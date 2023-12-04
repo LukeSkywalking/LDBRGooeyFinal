@@ -14,7 +14,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent" />
 
     </FrameLayout>
 
@@ -41,6 +41,6 @@
         android:layout_width="348dp"
         android:layout_height="443dp"
         android:layout_below="@id/buttonSearch"
-        android:layout_marginTop="12dp" />
+        android:layout_marginTop="39dp" />
 
 </RelativeLayout>

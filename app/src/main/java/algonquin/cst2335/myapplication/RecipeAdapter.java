@@ -84,22 +84,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 holder.itemView.getContext().startActivity(intent);
 
             }
-//public void onClick(View v) {
-//    Recipe clickedRecipe = recipes.get(position);
-//    // Create SharedPreferences.Editor to store data
-//    editor.putString("id", recipe.getId());
-//    editor.apply();
-//
-//    // Create an Intent to start SecondActivity
-//    Intent nextPage = new Intent(holder.itemView.getContext(), RecipeDetailsActivity.class);
-//
-//    // Pass necessary details to SecondActivity
-//    nextPage.putExtra("ID", clickedRecipe.getId());
-//
-//    // Start SecondActivity
-//    holder.itemView.getContext().startActivity(nextPage);
-//}
-
 
         });
     }
@@ -109,7 +93,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     }
     public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
-        notifyDataSetChanged(); // Notify the adapter that the data set has changed
+        notifyDataSetChanged();
     }
     public void addRecipes(List<Recipe> additionalRecipes) {
         recipes.addAll(additionalRecipes);

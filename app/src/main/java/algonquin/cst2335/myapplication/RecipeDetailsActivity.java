@@ -32,16 +32,17 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     private TextView textViewSummaryDetails;
     private Button buttonSaveRecipe;
     ArrayList<Recipe> recipesList = new ArrayList<>();
-//    private RequestQueue requestQueue;
     private RecyclerView.Adapter myAdapter;
     protected String recipeName;
     private MyVolley myVolley;
+    private RecipeRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("RecipeDetailsActivity", "onCreate called");
-//        requestQueue = (RequestQueue) MyVolley.newRequestQueue(this);
+        repository = new RecipeRepository(getApplication());
+
         myVolley = MyVolley.getInstance(this);
 
         // Now, use the requestQueue from MyVolley
@@ -54,6 +55,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         imageViewRecipeDetails = binding.imageViewRecipeDetails;
         buttonSaveRecipe = binding.buttonSaveRecipe;
         textViewTitleDetails = binding.textViewTitleDetails;
+        textViewSummaryDetails = binding.textViewSummaryDetails;
 
 
         Intent fromPrevious = getIntent();
@@ -66,7 +68,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         try {
             stringURL = "https://api.spoonacular.com/recipes/" +
                     URLEncoder.encode(Foodid, "UTF-8") +
-                    "/information?apiKey=b3013f46886845fcb8a9f6d64e736c2f"; // Replace YOUR_API_KEY with your actual API key
+                    "/information?apiKey=b3013f46886845fcb8a9f6d64e736c2f";
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
@@ -120,47 +122,26 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                     error.printStackTrace();
                 });
         requestQueue.add(request);
+
+        // Set a click listener for the Save Recipe button if needed
+        buttonSaveRecipe.setOnClickListener(v -> saveRecipeToDatabase());
     }
-
-//        textViewTitleDetails.setOnClickListener(c -> {
-//            )
-//    };
-
-    // Retrieve recipe details from Intent
-    //String id = getIntent().getStringExtra("id");
-    // Use recipeId to fetch additional details (Image, Summary) and update UI
-    // ...
-
-    // Set a click listener for the Save Recipe button if needed
-//        buttonSaveRecipe.setOnClickListener(v ->
-//    {
-//        saveRecipeToDatabase();
-//    });
-
-
 
     private void saveRecipeToDatabase() {
         // Retrieve recipe details from UI elements
-        String recipeId = getIntent().getStringExtra("recipeId");
+        String recipeId = getIntent().getStringExtra("id");
         String title = textViewTitleDetails.getText().toString();
         String summary = textViewSummaryDetails.getText().toString();
-        // Add more fields as needed
 
         // Create a RecipeList object with the retrieved details
-        RecipeList recipe = new RecipeList();
-        recipe.setId(recipeId);
-        recipe.setTitle(title);
-        recipe.setSummary(summary);
-        // Set other fields as needed
+        RecipeList recipe = new RecipeList(recipeId, title, "", summary, "");
 
         // Use the RecipeRepository to insert the recipe into the database
-        RecipeRepository repository = new RecipeRepository(getApplication());
         repository.insertRecipe(recipe);
 
         // Show a confirmation message or navigate to a different screen if needed
         Toast.makeText(RecipeDetailsActivity.this, "Recipe saved to database", Toast.LENGTH_SHORT).show();
     }
 }
-
 
 

@@ -10,9 +10,9 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class RecipeRepository {
+
     private RecipeDAO recipeDao;
     private LiveData<List<RecipeList>> allRecipes;
-    RecipeRepository repository;
     private Executor executor = Executors.newSingleThreadExecutor();
 
     public RecipeRepository(Application application) {
