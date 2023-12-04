@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import algonquin.cst2335.myapplication.Recipe.RecipeMain;
 import algonquin.cst2335.myapplication.databinding.ActivityMainBinding;
 import algonquin.cst2335.myapplication.deezer.playlist;
 import algonquin.cst2335.myapplication.dictionary.DictionaryActivity;
@@ -28,6 +29,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.recipeButton.setOnClickListener(click ->
-                startActivity(new Intent(this,RecipeMain.class)));
+                startActivity(new Intent(this, RecipeMain.class)));
     }
 }

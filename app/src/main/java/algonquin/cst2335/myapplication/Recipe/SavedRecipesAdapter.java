@@ -1,4 +1,4 @@
-package algonquin.cst2335.myapplication;
+package algonquin.cst2335.myapplication.Recipe;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+
+import algonquin.cst2335.myapplication.R;
 
 public class SavedRecipesAdapter extends ListAdapter<RecipeList, SavedRecipesAdapter.RecipeViewHolder> {
 

@@ -1,4 +1,4 @@
-package algonquin.cst2335.myapplication;
+package algonquin.cst2335.myapplication.Recipe;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,6 +30,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import algonquin.cst2335.myapplication.R;
 
 public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRecipeDeleteListener {
     androidx.appcompat.widget.Toolbar toolbar;

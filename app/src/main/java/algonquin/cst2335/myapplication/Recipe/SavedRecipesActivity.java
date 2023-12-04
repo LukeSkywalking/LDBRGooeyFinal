@@ -1,4 +1,4 @@
-package algonquin.cst2335.myapplication;
+package algonquin.cst2335.myapplication.Recipe;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import algonquin.cst2335.myapplication.R;
 
 public class SavedRecipesActivity extends AppCompatActivity {
 

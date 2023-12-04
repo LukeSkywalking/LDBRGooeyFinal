@@ -1,4 +1,4 @@
-package algonquin.cst2335.myapplication;
+package algonquin.cst2335.myapplication.Recipe;
 
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -7,6 +7,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+
+import algonquin.cst2335.myapplication.R;
 
 public class RecipesActivity extends AppCompatActivity {
 

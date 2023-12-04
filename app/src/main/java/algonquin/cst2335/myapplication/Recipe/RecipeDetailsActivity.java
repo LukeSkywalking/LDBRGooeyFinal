@@ -1,4 +1,4 @@
-package algonquin.cst2335.myapplication;
+package algonquin.cst2335.myapplication.Recipe;
 // RecipeDetailsActivity.java
 
 import android.content.Intent;

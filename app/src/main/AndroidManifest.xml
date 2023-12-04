@@ -20,9 +20,9 @@
         <activity android:name=".deezer.playlist"
             android:exported="false"/>
         <activity
-            android:name=".RecipeMain"
+            android:name=".Recipe.RecipeMain"
             android:exported="false" />
-        <activity android:name=".RecipesActivity"
+        <activity android:name=".Recipe.RecipesActivity"
             android:exported="false"/>
         <activity
             android:name=".MainActivity"
@@ -34,9 +34,9 @@
         </activity>
 
         <!-- Add the new activity for RecipeDetailsActivity -->
-        <activity android:name=".RecipeDetailsActivity"
+        <activity android:name=".Recipe.RecipeDetailsActivity"
             android:exported="false"/>
-        <activity android:name=".SavedRecipesActivity" />
+        <activity android:name=".Recipe.SavedRecipesActivity" />
     </application>
 
 </manifest>
