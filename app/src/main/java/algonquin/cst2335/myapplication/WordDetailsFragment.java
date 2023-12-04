@@ -92,9 +92,9 @@ public class WordDetailsFragment extends Fragment {
             wordTextView.setText(wordList.get(position).getWord());
             String definition = wordList.get(position).getDefinitions();
 
-
             appDatabase = Room.databaseBuilder(requireContext(), AppDatabase.class, "dictionaryDB").build();
             WordDefinitionDao wordDAO = appDatabase.wordDefinitionDao();
+
             androidx.appcompat.widget.Toolbar toolbar = holder.definitionsMenu;
             toolbar.inflateMenu(R.menu.fragmentrecycle);
 

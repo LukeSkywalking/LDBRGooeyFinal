@@ -21,5 +21,7 @@ public interface WordDefinitionDao {
     @Delete
     void deleteWordDefinition(WordDefinitionEntity word);
 
+    @Query("SELECT * FROM word_definitions WHERE word = :word")
+    List<WordDefinitionEntity> getSpecificWords(String word);
 }
 

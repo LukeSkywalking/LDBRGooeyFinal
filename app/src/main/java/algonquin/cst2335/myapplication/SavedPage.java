@@ -101,12 +101,15 @@ public class SavedPage extends AppCompatActivity {
             if (wordEntity != null) {
                 String term = wordEntity.getWord();
                 holder.bind(term);
+
                 androidx.appcompat.widget.Toolbar toolbar = holder.wordInfo;
 
                 toolbar.inflateMenu(R.menu.savedpageword);
                 toolbar.setOnMenuItemClickListener(item -> {
                     if (item.getItemId() == R.id.fragmentButton) {
                         try {
+
+
                             // Create the WordDetailsFragment with the selected term and position
                             WordDetailsFragment wordDetailFragment = new WordDetailsFragment(wordEntity.getDefinitions());
                             // Perform fragment transaction
