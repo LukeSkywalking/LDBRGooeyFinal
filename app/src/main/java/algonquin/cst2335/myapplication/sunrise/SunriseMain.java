@@ -206,9 +206,7 @@ public class SunriseMain extends AppCompatActivity {
                         textSunriseInfo.setText("Sunrise: " + sunriseTime);
                         textSunsetInfo.setText("Sunset: " + sunsetTime);
 
-                        // Now that you have the sunrise and sunset times, you can proceed with other actions
-                        // For example, you might want to save this information to a database or update a RecyclerView
-                        // This will depend on your specific requirements
+
                     } catch (JSONException e) {
                         Log.e("SunriseMain", "Error parsing JSON response: " + e.getMessage());
                         Toast.makeText(SunriseMain.this, "Error parsing server response", Toast.LENGTH_SHORT).show();

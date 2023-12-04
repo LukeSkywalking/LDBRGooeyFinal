@@ -50,7 +50,6 @@ public class AlbumDetailFragment extends Fragment {
     private SongsViewModel songModel;
     private DeezerAlbum album;
 
-    // Pass DeezerAlbum object to the fragment
     public AlbumDetailFragment(List<Songs> songsList, DeezerAlbum album, RequestQueue queue) {
         this.songsList = songsList;
         this.album = album;
@@ -65,26 +64,25 @@ public class AlbumDetailFragment extends Fragment {
         albumlistLayoutBinding.albumNameF.setText(album.getTitle());
         albumlistLayoutBinding.artistNameF.setText(album.getArtistName());
 
-        // Initialize favsList
+
         favsList = new ArrayList<>();
 
         String pathname = getActivity().getFilesDir() + "/" + album.getCoverUrl();
         File file = new File(pathname);
 
         if (file.exists()) {
-            // Load album cover image from local storage
+
             Bitmap albumCover = BitmapFactory.decodeFile(pathname);
             albumlistLayoutBinding.albumCoverF.setImageBitmap(albumCover);
             albumlistLayoutBinding.albumCoverF.setVisibility(View.VISIBLE);
         } else {
-            // If the album cover is not in local storage, make a network request to fetch it
+
             ImageRequest imgReq = new ImageRequest(album.getCoverUrl(), new Response.Listener<Bitmap>() {
                 @Override
                 public void onResponse(Bitmap bitmap) {
                     albumlistLayoutBinding.albumCoverF.setImageBitmap(bitmap);
                     albumlistLayoutBinding.albumCoverF.setVisibility(View.VISIBLE);
                     try {
-                        // Save the album cover to local storage
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100,
                                 getActivity().openFileOutput(album.getArtistName() + ".png", getActivity().MODE_PRIVATE));
                     } catch (Exception e) {
@@ -92,7 +90,7 @@ public class AlbumDetailFragment extends Fragment {
                     }
                 }
             }, 1024, 1024, ImageView.ScaleType.CENTER, null, error -> {
-                // Handle error in fetching the image
+
                 error.printStackTrace();
             });
             queue.add(imgReq);
@@ -200,34 +198,25 @@ public class AlbumDetailFragment extends Fragment {
                         break;
                     case R.id.songPreview:
                         try {
-                            // Construct the URL for the Deezer API to get tracks of the selected album
                             String tracksURL = "https://api.deezer.com/album/" + album.getAlbumId() + "/tracks";
 
-                            // Make a GET request to the Deezer API to get tracks of the selected album
                             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, tracksURL, null,
                                     (response) -> {
                                         try {
-                                            // Get the array of songs from the response
                                             JSONArray songsArray = response.getJSONArray("data");
 
-                                            // Iterate through the songsArray to find the matching song ID
                                             for (int i = 0; i < songsArray.length(); i++) {
                                                 JSONObject currentSong = songsArray.getJSONObject(i);
 
-                                                // Check if the current song has the same ID as the selected song
                                                 int currentSongId = currentSong.getInt("id");
-                                                if (currentSongId == song.getId()) { // Replace selectedSongId with the actual ID of the selected song
-                                                    // Get the preview URL of the matched song
+                                                if (currentSongId == song.getId()) {
                                                     String previewUrl = currentSong.getString("preview");
 
-                                                    // Play the preview
                                                     playPreview(previewUrl);
 
-                                                    // Exit the loop after finding the match
                                                     return;
                                                 }
                                             }
-                                            // If no match is found, show a Snackbar
                                             Snackbar.make(requireView(), "No preview available for this song", Snackbar.LENGTH_SHORT).show();
                                         } catch (Exception e) {
                                             e.printStackTrace();

@@ -100,5 +100,5 @@ public class SunriseItem implements Parcelable  {
         dest.writeString(sunsetTime);
     }
 
-    // Parcelable implementation (you can generate this using Android Studio or implement it manually)
+
 }

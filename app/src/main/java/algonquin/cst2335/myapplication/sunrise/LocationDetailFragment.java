@@ -110,8 +110,7 @@ public class LocationDetailFragment extends Fragment {
         locationViewModel.favoriteLocations.observe(getViewLifecycleOwner(), new Observer<ArrayList<FavoriteLocation>>() {
             @Override
             public void onChanged(ArrayList<FavoriteLocation> favoriteLocations) {
-                // Update the UI with your logic based on the changes in favorite locations
-                // For example, you can update TextViews or perform any other UI updates
+
             }
         });
 
@@ -145,9 +144,7 @@ public class LocationDetailFragment extends Fragment {
                         sunsetTitle.setText("Sunset:");
                         sunsetInfo.setText(sunsetTime);
 
-                        // Now that you have the sunrise and sunset times, you can proceed with other actions
-                        // For example, you might want to save this information to a database or update a RecyclerView
-                        // This will depend on your specific requirements
+
                     } catch (JSONException e) {
                         Log.e("LocationDetailFragment", "Error parsing JSON response: " + e.getMessage());
                         Toast.makeText(getContext(), "Error parsing server response", Toast.LENGTH_SHORT).show();

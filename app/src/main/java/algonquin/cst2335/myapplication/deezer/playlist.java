@@ -106,7 +106,7 @@ public class playlist extends AppCompatActivity {
 
             String searchedText = binding.searchTextPlaylist.getText().toString().trim();
 
-            if(!searchedText.isEmpty()) {
+            if(searchedText.isEmpty()) {
                 sp = getSharedPreferences("myData", Context.MODE_PRIVATE);
                 sp.getString("songSearched", searchedText);
                 SharedPreferences.Editor editor = sp.edit();
@@ -281,36 +281,21 @@ public class playlist extends AppCompatActivity {
                         break;
                     case R.id.preview:
                         try {
-                            // Construct the URL for the Deezer API to get tracks of the selected album
+
                             String tracksURL = "https://api.deezer.com/track/" + song.getId();
 
-                            // Make a GET request to the Deezer API to get tracks of the selected album
                             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, tracksURL, null,
                                     response -> {
                                         try {
-                                            // Get the array of songs from the response
-                                            JSONArray songsArray = response.getJSONArray("data");
 
-                                            // Iterate through the songsArray to find the matching song ID
-                                            for (int i = 0; i < songsArray.length(); i++) {
-                                                JSONObject currentSong = songsArray.getJSONObject(i);
-
-                                                // Check if the current song has the same ID as the selected song
-                                                int currentSongId = currentSong.getInt("id");
-                                                if (currentSongId == song.getId()) {
-                                                    // Get the preview URL of the matched song
-                                                    String previewUrl = currentSong.getString("preview");
-
-                                                    // Play the preview
-                                                    playPreview(previewUrl);
-
-                                                    // Exit the loop after finding the match
-                                                    return;
-                                                }
+                                            String previewURL = response.getString("preview");
+                                            if(previewURL != null) {
+                                                playPreview(previewURL);
                                             }
-
-                                            // If no match is found, show a Snackbar
-                                            Snackbar.make(findViewById(android.R.id.content), "No preview available for this song", Snackbar.LENGTH_SHORT).show();
+                                            else {
+                                                // If no match is found, show a Snackbar
+                                                Snackbar.make(findViewById(android.R.id.content), "No preview available for this song", Snackbar.LENGTH_SHORT).show();
+                                            }
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
