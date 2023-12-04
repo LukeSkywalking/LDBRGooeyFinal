@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -128,7 +126,7 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
         );
 
         // Add the search request to the Volley request queue
-        Volley.getInstance(this).getRequestQueue().add(searchRequest);
+        MyVolley.getInstance(this).getRequestQueue().add(searchRequest);
     }
 
 

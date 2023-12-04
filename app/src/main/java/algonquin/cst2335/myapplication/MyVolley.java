@@ -6,19 +6,19 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import java.util.Collection;
 
-public class Volley {
-    private static Volley instance;
+public class MyVolley {
+    private static MyVolley instance;
     private RequestQueue requestQueue;
     private static Context context;
 
-    private Volley(Context ctx) {
+    private MyVolley(Context ctx) {
         context = ctx;
         requestQueue = getRequestQueue();
     }
 
-    public static synchronized Volley getInstance(Context context) {
+    public static synchronized MyVolley getInstance(Context context) {
         if (instance == null) {
-            instance = new Volley(context);
+            instance = new MyVolley(context);
         }
         return instance;
     }

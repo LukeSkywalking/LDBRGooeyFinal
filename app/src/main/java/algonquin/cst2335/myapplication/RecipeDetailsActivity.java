@@ -18,9 +18,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -35,15 +32,20 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     private TextView textViewSummaryDetails;
     private Button buttonSaveRecipe;
     ArrayList<Recipe> recipesList = new ArrayList<>();
-    private RequestQueue queue;
+//    private RequestQueue requestQueue;
     private RecyclerView.Adapter myAdapter;
     protected String recipeName;
+    private MyVolley myVolley;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("RecipeDetailsActivity", "onCreate called");
-        queue = (RequestQueue) Volley.newRequestQueue(this);
+//        requestQueue = (RequestQueue) MyVolley.newRequestQueue(this);
+        myVolley = MyVolley.getInstance(this);
+
+        // Now, use the requestQueue from MyVolley
+        RequestQueue requestQueue = myVolley.getRequestQueue();
 
         binding = ActivityRecipeDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -52,6 +54,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         imageViewRecipeDetails = binding.imageViewRecipeDetails;
         buttonSaveRecipe = binding.buttonSaveRecipe;
         textViewTitleDetails = binding.textViewTitleDetails;
+
 
         Intent fromPrevious = getIntent();
         String Foodid = fromPrevious.getStringExtra("id");
@@ -78,11 +81,15 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                             long id = response.getLong("id");
                             String title = response.getString("title");
                             String image = response.getString("image");
+                            String summary = response.getString("summary");
+                            String sourceUrl = response.getString("sourceUrl");
 
                             Recipe selectedRecipe = new Recipe(String.valueOf(id), title, image, "", "");
 
                             // Update UI based on the selected recipe
                             binding.textViewTitleDetails.setText(selectedRecipe.getTitle());
+                            binding.textViewSummaryDetails.setText(summary);
+                            binding.sourceUrl.setText(sourceUrl);
 
                             String imageUrl = selectedRecipe.getImage();
 
@@ -97,7 +104,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                                         1024, 1024, ImageView.ScaleType.CENTER, null, error -> {
                                     Log.e("IMAGE_LOAD_ERROR", error.toString());
                                 });
-                                queue.add(imgReq);
+                                requestQueue.add(imgReq);
                             }
                         } else {
                             Log.e("API_RESPONSE", "Response is missing necessary details");
@@ -112,7 +119,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                     // Handle error
                     error.printStackTrace();
                 });
-        queue.add(request);
+        requestQueue.add(request);
     }
 
 //        textViewTitleDetails.setOnClickListener(c -> {
