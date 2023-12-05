@@ -1,5 +1,4 @@
 package algonquin.cst2335.myapplication;
-// RecipeDetailsActivity.java
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -12,8 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,19 +20,19 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 
 import algonquin.cst2335.myapplication.databinding.ActivityRecipeDetailsBinding;
 
+/**
+ * Activity for displaying details of a recipe retrieved from the Spoonacular API.
+ */
 public class RecipeDetailsActivity extends AppCompatActivity {
+
     private ActivityRecipeDetailsBinding binding;
     private ImageView imageViewRecipeDetails;
     private TextView textViewTitleDetails;
     private TextView textViewSummaryDetails;
     private Button buttonSaveRecipe;
-    ArrayList<Recipe> recipesList = new ArrayList<>();
-    private RecyclerView.Adapter myAdapter;
-    protected String recipeName;
     private MyVolley myVolley;
     private RecipeRepository repository;
     private String recipeId;
@@ -45,7 +42,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("RecipeDetailsActivity", "onCreate called");
         repository = new RecipeRepository(getApplication());
-
         myVolley = MyVolley.getInstance(this);
 
         // Now, use the requestQueue from MyVolley
@@ -60,17 +56,15 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         textViewTitleDetails = binding.textViewTitleDetails;
         textViewSummaryDetails = binding.textViewSummaryDetails;
 
-
+        // Retrieve recipe details from the previous activity
         Intent fromPrevious = getIntent();
-        String Foodid = fromPrevious.getStringExtra("id");
+        String foodId = fromPrevious.getStringExtra("id");
 
-
-        String searchedText = textViewTitleDetails.getText().toString().trim();
-
+        // Construct the Spoonacular API URL for recipe details
         String stringURL;
         try {
             stringURL = "https://api.spoonacular.com/recipes/" +
-                    URLEncoder.encode(Foodid, "UTF-8") +
+                    URLEncoder.encode(foodId, "UTF-8") +
                     "/information?apiKey=b3013f46886845fcb8a9f6d64e736c2f";
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
@@ -78,7 +72,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
         // Make a GET request to the Spoonacular API
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, stringURL, null,
-                (response) -> {
+                response -> {
                     Log.d("API_RESPONSE", response.toString());
                     try {
                         // Check if the response has the necessary details
@@ -137,8 +131,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         String summary = textViewSummaryDetails.getText().toString();
 
         // Check if the recipe is already saved
-        LiveData<RecipeList> savedRecipeLiveData = repository.getRecipeById(recipeId);
-        savedRecipeLiveData.observe(this, recipeList -> {
+        repository.getRecipeById(recipeId).observe(this, recipeList -> {
             if (recipeList != null) {
                 // Recipe is already saved, remove it from the database
                 removeRecipeFromDatabase(recipeId);
@@ -146,7 +139,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                 // Recipe is not saved, save it to the database
                 saveRecipeToDatabase(recipeId, title, summary);
             }
-            savedRecipeLiveData.removeObservers(this);
         });
     }
 
@@ -169,6 +161,11 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         Toast.makeText(RecipeDetailsActivity.this, "Recipe removed from database", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Opens the SavedRecipesActivity to view saved recipes.
+     *
+     * @param view The View that triggers this method (button click).
+     */
     public void viewSavedRecipes(View view) {
         Intent intent = new Intent(this, SavedRecipesActivity.class);
         startActivity(intent);

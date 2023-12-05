@@ -5,9 +5,12 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-
+/**
+ * Entity class representing a saved recipe in the Room database.
+ */
 @Entity(tableName = "recipes")
 public class RecipeList {
+
     @PrimaryKey
     @NonNull
     public String id;
@@ -24,12 +27,22 @@ public class RecipeList {
     @ColumnInfo(name = "sourceUrl")
     public String sourceUrl;
 
-    // Constructors, getters, and setters
-
+    /**
+     * Default constructor required by Room.
+     */
     public RecipeList() {
         // Default constructor required by Room
     }
 
+    /**
+     * Constructor for creating a RecipeList instance with details.
+     *
+     * @param id        The unique identifier of the recipe.
+     * @param title     The title of the recipe.
+     * @param image     The URL of the recipe image.
+     * @param summary   A brief summary of the recipe.
+     * @param sourceUrl The source URL of the recipe.
+     */
     public RecipeList(@NonNull String id, String title, String image, String summary, String sourceUrl) {
         this.id = id;
         this.title = title;

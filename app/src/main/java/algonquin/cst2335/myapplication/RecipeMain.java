@@ -1,3 +1,6 @@
+/**
+ * Main activity for the Recipe app, allowing users to search for and save recipes.
+ */
 package algonquin.cst2335.myapplication;
 
 import android.content.Context;
@@ -87,11 +90,21 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
         });
     }
 
+    /**
+     * Retrieves the saved search term from SharedPreferences.
+     *
+     * @return The saved search term.
+     */
     private String getSavedSearchTerm() {
         SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
         return sharedPreferences.getString("searchTerm", "");
     }
 
+    /**
+     * Saves the search term to SharedPreferences.
+     *
+     * @param searchTerm The search term to be saved.
+     */
     private void saveSearchTerm(String searchTerm) {
         SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -99,6 +112,11 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
         editor.apply();
     }
 
+    /**
+     * Performs a recipe search based on the provided query using the Spoonacular API.
+     *
+     * @param query The recipe search query.
+     */
     private void performRecipeSearch(String query) {
         // Save the search term to SharedPreferences
         saveSearchTerm(query);
@@ -132,7 +150,11 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
         MyVolley.getInstance(this).getRequestQueue().add(searchRequest);
     }
 
-
+    /**
+     * Updates the recipe list based on the search response received from the Spoonacular API.
+     *
+     * @param searchResponse The search response containing recipe information.
+     */
     private void updateRecipeList(JSONObject searchResponse) {
         try {
             // Check if the "results" array is not null and has elements
@@ -169,14 +191,18 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
                 recipeAdapter.setRecipes(recipes);
             } else {
                 // Display a message indicating that no recipes were found
-                Toast.makeText(RecipeMain.this,  R.string.no_recipes_found, Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecipeMain.this, R.string.no_recipes_found, Toast.LENGTH_SHORT).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
     }
+
+    /**
+     * Displays a confirmation dialog for deleting a recipe.
+     *
+     * @param recipe The recipe to be deleted.
+     */
     private void showDeleteConfirmationDialog(final Recipe recipe) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.delete_recipe_title);
@@ -197,6 +223,11 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
         builder.show();
     }
 
+    /**
+     * Deletes a recipe from the database.
+     *
+     * @param recipe The recipe to be deleted.
+     */
     private void deleteRecipeFromDatabase(final Recipe recipe) {
         // Convert the Recipe object to RecipeList and then delete it from the database
         RecipeList roomRecipe = new RecipeList(
@@ -212,6 +243,9 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
         refreshRecyclerView();
     }
 
+    /**
+     * Refreshes the RecyclerView with the updated list of recipes from the database.
+     */
     private void refreshRecyclerView() {
         // Retrieve the updated list of recipes from the database
         recipeRepository.getAllRecipes().observe(this, recipeLists -> {
@@ -221,6 +255,12 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
         });
     }
 
+    /**
+     * Converts a list of RecipeList objects to a list of Recipe objects.
+     *
+     * @param recipeLists The list of RecipeList objects.
+     * @return The list of Recipe objects.
+     */
     private List<Recipe> convertToRecipes(List<RecipeList> recipeLists) {
         // Convert RecipeList objects to Recipe objects
         List<Recipe> recipes = new ArrayList<>();
@@ -240,12 +280,11 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
     @Override
     public void onRecipeDelete(Recipe recipe) {
         showDeleteConfirmationDialog(recipe);
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -261,6 +300,10 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
 
         return false;
     }
+
+    /**
+     * Displays a dialog with help information for using the application.
+     */
     private void showHelpInformation() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Help Information");
@@ -287,6 +330,3 @@ public class RecipeMain extends AppCompatActivity implements RecipeAdapter.OnRec
         dialog.show();
     }
 }
-
-
-
